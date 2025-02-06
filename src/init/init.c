@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 20:48:34 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 17:53:33 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-** Crée un nouveau nœud d'environnement à partir d'une chaîne de format "KEY=VALUE"
-** Cette fonction gère proprement la mémoire en cas d'échec
-*/
 t_environment_var *create_environment_node(char *envp)
 {
     t_environment_var   *new_node;
@@ -37,17 +33,13 @@ t_environment_var *create_environment_node(char *envp)
     }
     if (!new_node->key || !new_node->value)
     {
-        cleanup_env_node(new_node);  // Utilise notre nouvelle fonction spécialisée
+        cleanup_env_node(new_node);
         return (NULL);
     }
     new_node->next = NULL;
     return (new_node);
 }
 
-/*
-** Initialise l'environnement complet à partir du tableau envp
-** Gère la création de la liste chaînée et le nettoyage en cas d'erreur
-*/
 t_environment_var *init_environment(char **envp)
 {
     t_environment_var   *environment;
@@ -62,7 +54,7 @@ t_environment_var *init_environment(char **envp)
         if (!new_node)
         {
             print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL);
-            cleanup_environment(environment);  // Utilise notre fonction spécialisée
+            cleanup_environment(environment);
             return (NULL);
         }
         if (!environment)
@@ -77,11 +69,7 @@ t_environment_var *init_environment(char **envp)
     return (environment);
 }
 
-/*
-** Point d'entrée principal pour l'initialisation du shell
-** Gère l'initialisation de l'environnement
-*/
 t_environment_var *initialize_shell(char **envp)
 {
-    return (init_environment(envp));  // Simplifié car une seule opération
+    return (init_environment(envp));
 }

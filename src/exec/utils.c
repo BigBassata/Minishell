@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:45:20 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 20:47:01 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 17:53:04 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 
-/* Cette fonction nettoie un pointeur simple et le met à NULL */
 void cleanup_ptr(void *ptr)
 {
     if (ptr)
@@ -22,7 +21,6 @@ void cleanup_ptr(void *ptr)
     }
 }
 
-/* Cette fonction nettoie une structure environment_var et ses membres */
 void cleanup_env_node(t_environment_var *node)
 {
     if (node)
@@ -35,7 +33,6 @@ void cleanup_env_node(t_environment_var *node)
     }
 }
 
-/* Cette fonction nettoie toute la liste chaînée d'environnement */
 void cleanup_environment(t_environment_var *environment)
 {
     t_environment_var *current;
@@ -50,12 +47,10 @@ void cleanup_environment(t_environment_var *environment)
     }
 }
 
-/* Cette fonction nettoie une structure command et ses membres */
 void cleanup_command(t_command *cmd)
 {
     if (!cmd)
         return;
-        
     if (cmd->args)
         free_array(cmd->args);
     if (cmd->input_path)
@@ -67,22 +62,16 @@ void cleanup_command(t_command *cmd)
     free(cmd);
 }
 
-/* Fonction principale de nettoyage qui gère tous les cas */
 void cleanup_all(t_environment_var *env, t_command *cmd, int exit_code)
 {
-    /* Nettoie l'environnement s'il existe */
     if (env)
         cleanup_environment(env);
-
-    /* Nettoie la commande et toute la chaîne de commandes s'il y en a */
     while (cmd)
     {
         t_command *next = cmd->next;
         cleanup_command(cmd);
         cmd = next;
     }
-
-    /* Si un code de sortie est spécifié (-1 signifie ne pas sortir) */
     if (exit_code != -1)
         exit(exit_code);
 }
@@ -93,7 +82,6 @@ void    free_array(char **array)
 
     if (!array)
         return;
-        
     i = 0;
     while (array[i])
     {
@@ -101,6 +89,5 @@ void    free_array(char **array)
         array[i] = NULL;
         i++;
     }
-    
     free(array);
 }

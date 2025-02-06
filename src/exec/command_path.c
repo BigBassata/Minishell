@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:02 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/16 14:54:49 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/06 17:19:08 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ static char *search_command_in_directories(const char *command, char **path_dirs
     {
         cmd_path = build_command_path(path_dirs[i], command);
         if (!cmd_path || access(cmd_path, X_OK) == 0)
-        {
-            free_array(path_dirs);
             return (cmd_path);
-        }
         free(cmd_path);
         i++;
     }

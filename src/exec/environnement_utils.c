@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environnement_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:37:12 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 20:46:29 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 17:52:25 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ t_environment_var *create_new_env_node(const char *name, const char *value)
     return (new_node);
 }
 
-// Cette fonction convertit notre liste chaînée d'environnement en tableau de chaînes
-// Format : chaque élément est "KEY=VALUE"
 char **convert_env_to_array(t_environment_var *environment)
 {
     char **env_array;
@@ -63,7 +61,6 @@ char **convert_env_to_array(t_environment_var *environment)
     int i;
     char *temp;
 
-    // Compte le nombre de variables d'environnement
     env_size = 0;
     current = environment;
     while (current)
@@ -71,18 +68,13 @@ char **convert_env_to_array(t_environment_var *environment)
         env_size++;
         current = current->next;
     }
-
-    // Alloue le tableau (+ 1 pour le NULL terminal)
     env_array = malloc(sizeof(char *) * (env_size + 1));
     if (!env_array)
         return (NULL);
-
-    // Remplit le tableau
     i = 0;
     current = environment;
     while (current)
     {
-        // Crée la chaîne "KEY=VALUE"
         temp = ft_strjoin(current->key, "=");
         if (!temp)
         {

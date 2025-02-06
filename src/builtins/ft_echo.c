@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:43:45 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 18:44:30 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 17:34:48 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int is_valid_n_option(const char *str)
 static void print_args(char **array, int start_index, int fd_out)
 {
     int i;
-
+    printf("start_index=%d\n", start_index);
     i = start_index;
     while (array[i])
     {
@@ -89,8 +89,12 @@ int ft_echo(char **array, int fd_out)
         has_n_option = 1;
         i++;
     }
+    printf("i=%d, has_n_option=%d\n", i, has_n_option);
     print_args(array, i, fd_out);
     if (!has_n_option)
+    {
         ft_putchar_fd('\n', fd_out);
+        printf("array[%d]=%s\n", i, array[i]);
+    }
     return (0);
 }
