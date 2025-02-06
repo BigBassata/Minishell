@@ -1,0 +1,96 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 13:43:45 by licohen           #+#    #+#             */
+/*   Updated: 2025/01/28 18:44:30 by liamcohen        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell_exec.h"
+
+/*
+** ft_echo : built-in echo
+** Cette fonction vérifie si une option -n est valide
+** Une option -n valide commence par '-' suivi d'un ou plusieurs 'n'
+** Retourne 1 si l'option est valide, 0 sinon
+*/
+static int is_valid_n_option(const char *str)
+{
+    size_t i;
+
+    if (!str)
+        return (0);
+    if (str[0] != '-' || str[1] != 'n')
+        return (0);
+    i = 2;
+    while (str[i])
+    {
+        if (str[i] != 'n')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+/*
+** Cette fonction gère l'impression des arguments
+** Elle imprime chaque argument suivi d'un espace si ce n'est pas le dernier
+** Retourne le nombre d'arguments imprimés
+*/
+static void print_args(char **array, int start_index, int fd_out)
+{
+    int i;
+
+    i = start_index;
+    while (array[i])
+    {
+        ft_putstr_fd(array[i], fd_out);
+        if (array[i + 1])
+            ft_putchar_fd(' ', fd_out);
+        i++;
+    }
+}
+
+/*
+** Cette fonction gère le cas où echo est appelé sans arguments
+** Elle imprime simplement un retour à la ligne
+** Retourne toujours 0 comme spécifié par la norme POSIX
+*/
+static int handle_no_args(int fd_out)
+{
+    ft_putchar_fd('\n', fd_out);
+    return (0);
+}
+
+/*
+** Implémentation de la commande echo
+** Reproduit le comportement de echo avec l'option -n
+** array: tableau d'arguments (array[0] est "echo")
+** fd_out: descripteur de fichier pour la sortie
+** Retourne 0 en cas de succès (echo retourne toujours 0 selon POSIX)
+*/
+int ft_echo(char **array, int fd_out)
+{
+    int i;
+    int has_n_option;
+
+    if (!array)
+        return (1);
+    if (nbr_of_args(array) < 2)
+        return (handle_no_args(fd_out));
+    has_n_option = 0;
+    i = 1;
+    while (array[i] && is_valid_n_option(array[i]))
+    {
+        has_n_option = 1;
+        i++;
+    }
+    print_args(array, i, fd_out);
+    if (!has_n_option)
+        ft_putchar_fd('\n', fd_out);
+    return (0);
+}
