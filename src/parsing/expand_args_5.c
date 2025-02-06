@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-int	handle_cpy_expanded_var(char **dest, char **src,
-	t_environment_var *env, int *len)
+int	handle_cpy_expanded_var(char **dest, char **src, t_environment_var *env, int *len)
 {
 	char	*tmp_var;
 	int		old_len_0;

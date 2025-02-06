@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+         #
+#    By: licohen <licohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:31:35 by licohen           #+#    #+#              #
-#    Updated: 2025/02/06 16:16:38 by liamcohen        ###   ########.fr        #
+#    Updated: 2025/02/06 16:59:04 by licohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ SRC_SUBDIRS = error exec init parsing builtins signals   # Notez le 's' à la fi
 # Création automatique des sous-répertoires objets correspondants
 OBJ_SUBDIRS = $(addprefix $(OBJ_DIR)/, $(SRC_SUBDIRS))
 
-# Liste explicite des fichiers source par catégorie
-PARSING_SRCS = expand_args_1.c expand_args_2.c expand_args_3.c expand_args_4.c \
+PARSING_SRCS = expand_args_1.c expand_args_2.c expand_args_3.c expand_args_4.c expand_args_5.c \
                heredoc_utils.c heredoc.c line_validation_1.c line_validation_2.c \
                line_validation_utils.c parsing_1.c parsing_2.c parsing_3.c \
                parsing_utils.c tokenization_utils.c tokenization.c
@@ -64,27 +63,6 @@ SRCS = $(MAIN_SRCS:%.c=$(SRC_DIR)/%.c) \
 
 # Génération des fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
-# # Préfixage des chemins complets
-# SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRCS)) \
-#        $(addprefix $(SRC_DIR)/parsing/, $(PARSING_SRCS)) \
-#        $(addprefix $(SRC_DIR)/signals/, $(SIGNALS_SRCS)) \
-#        $(addprefix $(SRC_DIR)/error/, $(ERROR_SRCS)) \
-#        $(addprefix $(SRC_DIR)/exec/, $(EXEC_SRCS)) \
-#        $(addprefix $(SRC_DIR)/builtins/, $(BUILTINS_SRCS)) \
-#        $(addprefix $(SRC_DIR)/init/, $(INIT_SRCS))
-
-# # Génération des fichiers objets
-# OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
-# debug:
-# 	@echo "Source files:"
-# 	@echo "$(SRCS)" | tr ' ' '\n'
-# 	@echo "\nObject files:"
-# 	@echo "$(OBJS)" | tr ' ' '\n'
-
-# $(OBJ_DIR)/%/:
-# 	@mkdir -p $@
 	
 # Couleurs pour le retour visuel
 GREEN = \033[0;32m
@@ -95,10 +73,6 @@ RESET = \033[0m
 #### RULES ####################################################################
 
 all: makedirs $(NAME)
-
-# Modification de la règle all pour inclure la création des dossiers
-# all: $(OBJ_DIR) $(OBJ_SUBDIRS) $(NAME)
-
 
 # Création de tous les répertoires nécessaires
 makedirs: $(OBJ_DIR) $(OBJ_SUBDIRS)
@@ -123,31 +97,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -I $(INCLUDE) $< -o $@
 
-# # Règle de compilation des objets
-# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-# 	@echo "$(BLUE)Compiling $<...$(RESET)"
-# 	@mkdir -p $(dir $@)
-# 	@$(CC) $(CFLAGS) -c -I $(INCLUDE) $< -o $@
-
-# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-# 	@echo "$(BLUE)Compiling $< to $@...$(RESET)"
-# 	@mkdir -p $(dir $@)
-# 	@$(CC) $(CFLAGS) -c -I $(INCLUDE) $< -o $@
-
 # Nettoyage
 clean:
 	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
 	@$(RM) -r $(OBJ_DIR)
 	@$(MAKE) -C $(LIBDIR) clean > /dev/null 2>&1
 	@echo "$(GREEN)✓ Cleaned$(RESET)"
-
-# fclean: clean
-# 	@echo "$(YELLOW)🗑️ Full cleanup...$(RESET)"
-# 	@$(RM) $(NAME)
-# 	@$(MAKE) -C $(LIBDIR) fclean > /dev/null 2>&1
-# 	@$(MAKE) -C tests fclean > /dev/null 2>&1
-# 	@$(MAKE) -C tests/tests_parsing fclean > /dev/null 2>&1
-# 	@echo "$(GREEN)✓ Fully cleaned$(RESET)"
 
 fclean: clean
 	@echo "$(YELLOW)🗑️ Full cleanup...$(RESET)"
@@ -180,127 +135,3 @@ tests_parsing:
 	@make -C tests/tests_parsing
 	@echo "$(GREEN)✓Parsing tester ready$(RESET)"
 
-# NAME = minishell
-
-# #### VARIABLES #################################################################
-
-# CC = cc
-# CFLAGS = -Wall -Wextra -Werror
-# LDFLAGS = -lreadline -lncurses
-
-# RM = rm -f
-
-# LIBDIR = Libft
-# LIB = $(LIBDIR)/libft.a
-# INCLUDE = include
-# SRC_DIR = src
-# OBJ_DIR = obj
-
-# # Définition explicite des sous-répertoires source
-# SRC_SUBDIRS = error exec init parsing builtins signals
-
-# # Création automatique des sous-répertoires objets correspondants
-# OBJ_SUBDIRS = $(addprefix $(OBJ_DIR)/, $(SRC_SUBDIRS))
-
-# # Liste explicite des fichiers source par catégorie
-# PARSING_SRCS = expand_args_1.c expand_args_2.c expand_args_3.c expand_args_4.c \
-#                heredoc_utils.c heredoc.c line_validation_1.c line_validation_2.c \
-#                line_validation_utils.c parsing_1.c parsing_2.c parsing_3.c \
-#                parsing_utils.c tokenization_utils.c tokenization.c
-
-# SIGNALS_SRCS = signals.c signals_utils.c
-
-# ERROR_SRCS = error_message.c error_message_2.c
-
-# EXEC_SRCS = command_exec.c command_path.c command_utils.c environnement_utils.c \
-#             environnement.c pipeline.c redirection.c redirections_utils.c utils.c \
-            
-# BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
-#                 ft_echo.c ft_env.c ft_exit.c ft_export.c \
-#                 ft_pwd.c ft_unset.c
-
-# INIT_SRCS = init.c
-
-# MAIN_SRCS = main.c
-
-# # Préfixage des chemins complets avec une méthode plus robuste
-# SRCS := $(addprefix $(SRC_DIR)/, $(MAIN_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/parsing/, $(PARSING_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/signals/, $(SIGNALS_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/error/, $(ERROR_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/exec/, $(EXEC_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/builtins/, $(BUILTINS_SRCS))
-# SRCS += $(addprefix $(SRC_DIR)/init/, $(INIT_SRCS))
-
-# # Génération des fichiers objets en préservant la structure des dossiers
-# OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
-# # Couleurs pour le retour visuel
-# GREEN = \033[0;32m
-# BLUE = \033[0;34m
-# YELLOW = \033[0;33m
-# RESET = \033[0m
-
-# #### RULES ####################################################################
-
-# all: makedirs $(NAME)
-
-# # Création de tous les répertoires nécessaires
-# makedirs:
-# 	@mkdir -p $(OBJ_DIR)
-# 	@mkdir -p $(OBJ_SUBDIRS)
-
-# # Règle principale de compilation
-# $(NAME): $(OBJS) $(LIB)
-# 	@echo "$(YELLOW)🔨 Linking objects...$(RESET)"
-# 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB) $(LDFLAGS)
-# 	@echo "$(GREEN)✅ Build successful!$(RESET)"
-
-# # Compilation de la libft
-# $(LIB):
-# 	@echo "$(YELLOW)Adding Libft$(RESET)"
-# 	@$(MAKE) -C $(LIBDIR) > /dev/null 2>&1
-
-# # Règle de compilation des objets avec gestion améliorée des sous-dossiers
-# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-# 	@echo "$(BLUE)Compiling $<...$(RESET)"
-# 	@mkdir -p $(dir $@)
-# 	@$(CC) $(CFLAGS) -c -I $(INCLUDE) $< -o $@
-
-# # Règle de nettoyage
-# clean:
-# 	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
-# 	@$(RM) -r $(OBJ_DIR)
-# 	@$(MAKE) -C $(LIBDIR) clean > /dev/null 2>&1
-# 	@echo "$(GREEN)✓ Cleaned$(RESET)"
-
-# fclean: clean
-# 	@echo "$(YELLOW)🗑️ Full cleanup...$(RESET)"
-# 	@$(RM) $(NAME)
-# 	@$(MAKE) -C $(LIBDIR) fclean > /dev/null 2>&1
-# 	@if [ -d tests ]; then \
-# 		$(MAKE) -C tests fclean > /dev/null 2>&1 || true; \
-# 	fi
-# 	@if [ -d tests/tests_parsing ]; then \
-# 		$(MAKE) -C tests/tests_parsing fclean > /dev/null 2>&1 || true; \
-# 	fi
-# 	@echo "$(GREEN)✓ Fully cleaned$(RESET)"
-
-# re: fclean all
-
-# # Création du répertoire tmp pour les heredocs si nécessaire
-# tmp:
-# 	@mkdir -p $(SRC_DIR)/tmp
-
-# .PHONY: all clean fclean re test tests_parsing makedirs tmp
-
-# # Règles de test
-# test:
-# 	@echo "$(YELLOW)🧪 Running tests...$(RESET)"
-# 	@make -C tests
-# 	@echo "$(GREEN)✓ Tests completed$(RESET)"
-
-# tests_parsing:
-# 	@echo "$(YELLOW)🧪 Running parsing tester...$(RESET)"
-# 	@make -C tests/tests_parsing
-# 	@echo "$(GREEN)✓Parsing tester ready$(RESET)"

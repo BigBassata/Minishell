@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int g_signal = 0;
+
 void	interactive_mode_ctrl_c(int signal)
 {
 	(void)signal;

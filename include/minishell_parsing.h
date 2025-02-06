@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:08 by licohen           #+#    #+#             */
-/*   Updated: 2024/12/12 17:32:09 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/06 16:59:44 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "minishell_struct.h"
+
 
 // line_validation_1.c
 int			is_null_line(char *line);
@@ -101,8 +102,7 @@ int			are_quotes_in_arg(char *arg);
 int			cpy_arg_without_quotes(char **dst, char *src);
 
 // expand_args_5.c
-int			handle_cpy_expanded_var(char **dest, char **src,
-				t_environment_var *env, int *len);
+int			handle_cpy_expanded_var(char **dest, char **src, t_environment_var *env, int *len);
 
 // heredoc.c
 char		*handle_here_doc(int *file_nb, char *delimiter,
