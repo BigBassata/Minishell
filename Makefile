@@ -6,7 +6,7 @@
 #    By: licohen <licohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:31:35 by licohen           #+#    #+#              #
-#    Updated: 2025/02/06 16:59:04 by licohen          ###   ########.fr        #
+#    Updated: 2025/02/06 18:25:18 by licohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,8 @@ INCLUDE = include
 SRC_DIR = src
 OBJ_DIR = obj
 
-# Définition explicite des sous-répertoires source
-SRC_SUBDIRS = error exec init parsing builtins signals   # Notez le 's' à la fin
+SRC_SUBDIRS = error exec init parsing builtins signals
 
-# Création automatique des sous-répertoires objets correspondants
 OBJ_SUBDIRS = $(addprefix $(OBJ_DIR)/, $(SRC_SUBDIRS))
 
 PARSING_SRCS = expand_args_1.c expand_args_2.c expand_args_3.c expand_args_4.c expand_args_5.c \
@@ -52,7 +50,6 @@ INIT_SRCS = init.c
 
 MAIN_SRCS = main.c
 
-# Préfixage des chemins complets
 SRCS = $(MAIN_SRCS:%.c=$(SRC_DIR)/%.c) \
        $(PARSING_SRCS:%.c=$(SRC_DIR)/parsing/%.c) \
        $(SIGNALS_SRCS:%.c=$(SRC_DIR)/signals/%.c) \
@@ -61,43 +58,35 @@ SRCS = $(MAIN_SRCS:%.c=$(SRC_DIR)/%.c) \
        $(BUILTINS_SRCS:%.c=$(SRC_DIR)/builtins/%.c) \
        $(INIT_SRCS:%.c=$(SRC_DIR)/init/%.c)
 
-# Génération des fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 	
-# Couleurs pour le retour visuel
 GREEN = \033[0;32m
 BLUE = \033[0;34m
 YELLOW = \033[0;33m
 RESET = \033[0m
 
-#### RULES ####################################################################
 
 all: makedirs $(NAME)
 
-# Création de tous les répertoires nécessaires
 makedirs: $(OBJ_DIR) $(OBJ_SUBDIRS)
 
 $(OBJ_DIR) $(OBJ_SUBDIRS):
 	@mkdir -p $@
 
-# Règle principale de compilation
 $(NAME): $(OBJS) $(LIB)
 	@echo "$(YELLOW)🔨 Linking objects...$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB) $(LDFLAGS)
 	@echo "$(GREEN)✅ Build successful!$(RESET)"
 
-# Compilation de la libft
 $(LIB):
 	@echo "$(YELLOW)Adding Libft$(RESET)"
 	@$(MAKE) -C $(LIBDIR) > /dev/null 2>&1
 
-# Règle de compilation des objets
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c -I $(INCLUDE) $< -o $@
 
-# Nettoyage
 clean:
 	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
 	@$(RM) -r $(OBJ_DIR)
@@ -118,13 +107,11 @@ fclean: clean
 	
 re: fclean all
 
-# Création du répertoire tmp pour les heredocs si nécessaire
 tmp:
 	@mkdir -p $(SRC_DIR)/tmp
 
 .PHONY: all clean fclean re test tests_parsing makedirs tmp
 
-# Règles de test conservées de votre Makefile original
 test:
 	@echo "$(YELLOW)🧪 Running tests...$(RESET)"
 	@make -C tests
