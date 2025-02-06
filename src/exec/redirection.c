@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:02 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/16 17:54:28 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/06 17:58:52 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,14 @@ static int handle_output_redirection(t_command *cmd, int *prev_fds)
 
     if (!cmd->output_path)
         return (TRUE);
-    
     if (!check_output_permissions(cmd, prev_fds))
         return (FALSE);
-
     if (cmd->is_append_mode)
         flags = O_WRONLY | O_CREAT | O_APPEND;
     else
         flags = O_WRONLY | O_CREAT | O_TRUNC;
-
     if (setup_output_fd(cmd, flags, prev_fds) == FALSE)
         return (ERROR);
-
     return (TRUE);
 }
 
