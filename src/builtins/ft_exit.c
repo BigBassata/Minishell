@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:14:07 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 18:44:38 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 18:37:02 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 
-static int is_len_one(int fd_out)
-{
-    ft_putendl_fd("exit", fd_out);
-    return (0);
-}
+// static int is_len_one(int fd_out)
+// {
+//     ft_putendl_fd("exit", fd_out);
+//     return (0);
+// }
 
 static int handle_exit_error(t_error error, char *word)
 {
@@ -101,20 +101,20 @@ int ft_exit(t_command *cmd, int fd_out)
         return (1);
     array = cmd->args;
     len = nbr_of_args(array);
+    if (fd_out < 0)
+        fd_out = STDOUT_FILENO;
     if (len == 1)
     {
-        code = cmd->exit_code;
-        return (is_len_one(fd_out));
+        ft_putendl_fd("exit", fd_out);
+        exit(0);
     }
-    else if (!is_num(array[1]))
+    if (!is_num(array[1]))
         return (handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]));
-    else if (len > 2)
+    if (len > 2)
         return (handle_exit_error(TOO_MANY_ARGUMENTS, "exit"));
-
     code = strtol(array[1], &endptr, 10);
     if (*endptr != '\0')
         return (handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]));
-    cmd->exit_code = code & 0xFF;
     ft_putendl_fd("exit", fd_out);
-    return (cmd->exit_code);
+    exit(code & 0xFF);
 }
