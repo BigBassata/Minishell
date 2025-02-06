@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:12:09 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 18:44:48 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/06 18:23:38 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int ft_pwd(int fd_out)
 {
     char dir[PATH_MAX];
     
+    if (fd_out < 0)
+        fd_out = STDOUT_FILENO;
     if (getcwd(dir, PATH_MAX))
     {
         ft_putendl_fd(dir, fd_out);
