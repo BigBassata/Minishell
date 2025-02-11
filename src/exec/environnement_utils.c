@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environnement_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:37:12 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 17:52:25 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/11 12:17:10 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int is_valid_env_name(const char *name)
 
 int is_readonly_var(const char *name)
 {
-    return (ft_strcmp(name, "PWD") == 0 || ft_strcmp(name, "OLDPWD") == 0);
+    return (ft_strcmp(name, "PWD") == 0 || ft_strcmp(name, "OLDPWD") == 0
+        || ft_strcmp(name, "_?") == 0);
 }
 
 t_environment_var *create_new_env_node(const char *name, const char *value)

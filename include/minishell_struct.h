@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_struct.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 19:22:55 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/16 15:09:31 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/11 12:11:17 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_environment_var
 {
     char 	*key;
     char 	*value;
+    int 	ctr_d_in_heredoc;
     int 	last_exit_code;
     struct 	s_environment_var *next;
 } t_environment_var;

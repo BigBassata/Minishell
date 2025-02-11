@@ -117,7 +117,5 @@ t_command	*parse_token_list(t_token *token_list, t_environment_var *env)
 		return (free_token_list(token_list), NULL);
 	cmd_list = handle_parsing(token_list, env);
 	free_token_list(token_list);
-	if (g_signal == 1)
-		return (free_cmd_list(cmd_list), NULL);
 	return (cmd_list);
 }

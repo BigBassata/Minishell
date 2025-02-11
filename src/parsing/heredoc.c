@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 int	refine_delimiter(char **delimiter)
 {
 	char	*new_delimiter;
@@ -83,22 +84,23 @@ int	create_here_doc_file(char *file_path, char *delimiter,
 	fd = open(file_path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		return (print_error_message("error fd create here doc file"), ERROR);
-	setup_signals_heredoc_mode();
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			return (handle_heredoc_ctr_d(), close(fd), TRUE);
-		if (line && ft_strcmp(delimiter, line) == 0)
+		if (!line || (line && ft_strcmp(delimiter, line) == 0))
+		{
+			if (!line)
+				handle_heredoc_ctr_d(delimiter, env);
+			free(line);
 			break ;
-		if (g_signal == 130 || handle_heredoc_expand(&line, env) == ERROR)
-			return (setup_signals_interactive_mode(),
-				free(line), close(fd), ERROR);
+		}
+		if (handle_heredoc_expand(&line, env) == ERROR)
+			return (close(fd), free(line), ERROR);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 	}
-	return (free(line), setup_signals_interactive_mode(), close(fd), TRUE);
+	return (close(fd), TRUE);
 }
 
 char	*handle_here_doc(int *file_nb, char *delimiter, t_environment_var *env)

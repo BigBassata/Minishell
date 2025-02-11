@@ -14,6 +14,8 @@
 
 #include "minishell.h"
 
+int	g_signal = 0;
+
 /*
 ** Cette fonction gère l'exécution d'un pipeline de commandes
 ** Elle sera développée plus tard pour gérer les pipes correctement

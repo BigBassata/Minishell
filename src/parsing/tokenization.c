@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 int	tokenize_meta_chr(char **line, t_token **token_list)
 {
 	t_token	*token;
@@ -100,7 +99,5 @@ t_token	*tokenize_line(char *line)
 		return (NULL);
 	token_list = handle_tokenization(line);
 	free(line);
-	if (g_signal == 1)
-		return (free_token_list(token_list), NULL);
 	return (token_list);
 }

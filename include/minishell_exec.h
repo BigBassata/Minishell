@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 18:45:45 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/11 12:24:06 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int                 create_env_var(t_environment_var **environment, const char *
 int                 custom_setenv(t_environment_var **environment, const char *name, const char *value);
 char                *get_env_value(t_environment_var *environment, const char *key);
 char                **convert_env_to_array(t_environment_var *environment);
+void	del_environment(t_environment_var *envp);
+
 
 //redir
 int                 setup_redirections(t_command *cmd);

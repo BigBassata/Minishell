@@ -12,16 +12,30 @@
 
 #include "minishell.h"
 
-int	ctrl_c_in_main_loop(char *line)
-{
-	if (g_signal == 1)
-		return (free(line), TRUE);
-	return (FALSE);
-}
+// int	ctrl_c_in_main_loop(char *line)
+// {
+// 	if (g_signal == 1)
+// 		return (free(line), TRUE);
+// 	return (FALSE);
+// }
 
-void	handle_heredoc_ctr_d(void)
+// void	handle_heredoc_ctr_d(void)
+// {
+// 	print_error_message("warning: here-document delimited "
+// 		"by end-of-file (wanted delimiter)");
+// 	setup_signals_interactive_mode();
+// }
+
+
+void	handle_heredoc_ctr_d(char *delimiter, t_environment_var *env)
 {
-	print_error_message("warning: here-document delimited "
-		"by end-of-file (wanted delimiter)");
-	setup_signals_interactive_mode();
+	g_signal = 128 + SIGINT;
+	env->ctr_d_in_heredoc = 1;
+	ft_putstr_fd("minishell: warning: here-document delimited "
+		"by end-of-file (wanted `", 2);
+	if (delimiter != NULL)
+		ft_putstr_fd(delimiter, 2);
+	else
+		ft_putstr_fd("delimiter", 2);
+	ft_putendl_fd("')", 2);
 }

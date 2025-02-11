@@ -15,7 +15,7 @@
 int	is_null_line(char *line)
 {
 	if (!line)
-		return (ft_printf("exit minishell\n"), TRUE);
+		return (ft_putendl_fd("exit minishell", STDOUT_FILENO), TRUE);
 	return (FALSE);
 }
 
@@ -23,6 +23,7 @@ int	is_void_case(char *line)
 {
 	int	len;
 
+	g_signal = 0;
 	len = ft_strlen(line);
 	if (len == 0)
 		return (free(line), TRUE);

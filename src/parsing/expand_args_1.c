@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 int	vars_values_lens(char *arg, t_environment_var *env, int *vars_len,
 	int *values_len)
 {
@@ -105,11 +104,7 @@ t_command	*expand_args(t_command *cmd, t_environment_var *env)
 		return (NULL);
 	if (handle_expand_args(cmd, env) == ERROR)
 		return (free_cmd_list(cmd), NULL);
-	if (g_signal == 1 || g_signal == 130)
-		return (free_cmd_list(cmd), NULL);
 	if (remove_surrounding_quotes(cmd) == ERROR)
-		return (free_cmd_list(cmd), NULL);
-	if (g_signal == 1 || g_signal == 130)
 		return (free_cmd_list(cmd), NULL);
 	return (cmd);
 }
