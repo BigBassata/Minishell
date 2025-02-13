@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 16:30:59 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 16:45:46 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,20 +185,20 @@ static int wait_for_pipeline(t_pipeline_info *info)
 
     for (i = 0; i < info->total_commands; i++)
     {
-        if (info->process_ids[i] > 0)  // Ne faire waitpid que pour les PID valides
+        if (info->process_ids[i] > 0)
         {
             int status;
             pid_t wait_result = waitpid(info->process_ids[i], &status, 0);
             
             if (wait_result == -1)
             {
-                if (errno != ECHILD)  // Ignorer l'erreur si le processus n'existe pas
+                if (errno != ECHILD)
                 {
                     print_error_exec_message(WAITPID_ERROR, NULL);
                     return (ERROR);
                 }
             }
-            else if (i == info->total_commands - 1)  // Statut de la dernière commande
+            else if (i == info->total_commands - 1)
             {
                 if (WIFEXITED(status))
                     last_status = WEXITSTATUS(status);
