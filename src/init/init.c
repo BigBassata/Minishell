@@ -6,11 +6,40 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 16:02:46 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 17:31:04 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+// t_environment_var *create_environment_node(char *envp)
+// {
+//     t_environment_var   *new_node;
+//     char                *equals_sign;
+
+//     new_node = malloc(sizeof(t_environment_var));
+//     if (!new_node)
+//         return (NULL);
+//     equals_sign = ft_strchr(envp, '=');
+//     if (equals_sign)
+//     {
+//         new_node->key = ft_substr(envp, 0, equals_sign - envp);
+//         new_node->value = ft_strdup(equals_sign + 1);
+//     }
+//     else
+//     {
+//         new_node->key = ft_strdup(envp);
+//         new_node->value = ft_strdup("");
+//     }
+//     if (!new_node->key || !new_node->value)
+//     {
+//         cleanup_ptr(new_node->key);
+//         cleanup_ptr(new_node->value);
+//         cleanup_ptr(new_node);
+//         return (NULL);
+//     }
+//     return (new_node->next = NULL, new_node);
+// }
 
 t_environment_var *create_environment_node(char *envp)
 {
@@ -20,6 +49,11 @@ t_environment_var *create_environment_node(char *envp)
     new_node = malloc(sizeof(t_environment_var));
     if (!new_node)
         return (NULL);
+    // Initialiser les champs de contrôle immédiatement après l'allocation
+    new_node->ctr_d_in_heredoc = 0;
+    new_node->last_exit_code = 0;
+    new_node->next = NULL;
+
     equals_sign = ft_strchr(envp, '=');
     if (equals_sign)
     {
@@ -38,7 +72,7 @@ t_environment_var *create_environment_node(char *envp)
         cleanup_ptr(new_node);
         return (NULL);
     }
-    return (new_node->next = NULL, new_node);
+    return (new_node);
 }
 
 t_environment_var *init_environment(char **envp)

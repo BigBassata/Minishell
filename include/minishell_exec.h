@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 16:31:15 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 17:18:36 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,22 @@ int                 execute_command(t_command *cmd, t_environment_var *environme
 t_cmd_type          get_command_type(t_command *cmd, t_environment_var *environment);
 enum e_state        check_command_type(const char *cmd);
 
-//pipeline
-int execute_pipeline(t_command *cmd, t_environment_var *environment);
+
+/* Pipeline management */
+// Main pipeline functions
+void    cleanup_pipeline(t_pipeline_info *info);
+void    close_pipe_fds(int *pipe_fds);
+int     initialize_pipeline(t_pipeline_info *info, t_command *cmd);
+int     execute_pipeline(t_command *cmd, t_environment_var *environment);
+int     execute_builtin_parent(t_command *cmd, t_environment_var *env);  // Ajouté
+
+// Pipeline execution
+int     execute_piped_command(t_command *cmd, t_environment_var *env, 
+                             t_pipeline_info *info);
+int     check_builtin_execution(t_command *cmd);
+
+// Pipeline wait management
+int     wait_for_pipeline(t_pipeline_info *info);
 
 //env
 int                 create_env_var(t_environment_var **environment, const char *name, const char *value);
