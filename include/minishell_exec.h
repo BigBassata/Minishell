@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:35:48 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 16:31:15 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int                 execute_command(t_command *cmd, t_environment_var *environme
 t_cmd_type          get_command_type(t_command *cmd, t_environment_var *environment);
 enum e_state        check_command_type(const char *cmd);
 
+//pipeline
 int execute_pipeline(t_command *cmd, t_environment_var *environment);
 
 //env
@@ -81,7 +82,7 @@ int                 create_env_var(t_environment_var **environment, const char *
 int                 custom_setenv(t_environment_var **environment, const char *name, const char *value);
 char                *get_env_value(t_environment_var *environment, const char *key);
 char                **convert_env_to_array(t_environment_var *environment);
-void	del_environment(t_environment_var *envp);
+void	            del_environment(t_environment_var *envp);
 
 
 //redir

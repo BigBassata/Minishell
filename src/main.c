@@ -16,10 +16,6 @@
 
 int	g_signal = 0;
     
-/*
-** Fonction principale qui gère la boucle du shell
-** Elle intègre le parsing de votre binôme avec votre partie exécution
-*/
 int main(int __attribute__((unused)) argc, 
          char __attribute__((unused)) **argv, 
          char **envp)
@@ -52,10 +48,6 @@ int main(int __attribute__((unused)) argc,
         cmd_list = parse_token_list(token_list, env);
         if (!cmd_list)
             continue;
-        printf("Command structure:\n");
-        printf("Command: %s\n", cmd_list->args[0]);  // Devrait être "echo"
-        printf("First arg: %s\n", cmd_list->args[1]); // Devrait être votre texte
-        printf("Output FD: %d\n", cmd_list->output_fd); // Important pour la sortie!
         if (!expand_args(cmd_list, env))
         {
             free_cmd_list(cmd_list);
