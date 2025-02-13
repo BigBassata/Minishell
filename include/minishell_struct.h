@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 19:22:55 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/11 12:11:17 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/11 13:22:49 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_environment_var
 typedef struct s_pipeline_info
 {
     pid_t	*process_ids;
-    int		pipe_fds[2];
+    int		prev_pipe[2];  // Ajout de ce champ
     int		total_commands;
     int		current_index;
 } t_pipeline_info;

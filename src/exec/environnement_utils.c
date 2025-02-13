@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:37:12 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/11 12:17:10 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 15:45:59 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,11 @@ t_environment_var *create_new_env_node(const char *name, const char *value)
     return (new_node);
 }
 
-char **convert_env_to_array(t_environment_var *environment)
+static int get_env_size_and_alloc(t_environment_var *environment,
+    char ***env_array)
 {
-    char **env_array;
-    t_environment_var *current;
-    int env_size;
-    int i;
-    char *temp;
+    t_environment_var    *current;
+    int                 env_size;
 
     env_size = 0;
     current = environment;
@@ -69,29 +67,36 @@ char **convert_env_to_array(t_environment_var *environment)
         env_size++;
         current = current->next;
     }
-    env_array = malloc(sizeof(char *) * (env_size + 1));
-    if (!env_array)
+    *env_array = malloc(sizeof(char *) * (env_size + 1));
+    if (!*env_array)
+        return (ERROR);
+    (*env_array)[env_size] = NULL;
+    return (env_size);
+}
+
+char **convert_env_to_array(t_environment_var *environment)
+{
+    char                **env_array;
+    t_environment_var    *current;
+    char                *temp;
+    int                 i;
+
+    i = get_env_size_and_alloc(environment, &env_array);
+    if (i == ERROR)
         return (NULL);
-    i = 0;
     current = environment;
+    i = 0;
     while (current)
     {
         temp = ft_strjoin(current->key, "=");
         if (!temp)
-        {
-            free_array(env_array);
-            return (NULL);
-        }
+            return (free_array(env_array), NULL);
         env_array[i] = ft_strjoin(temp, current->value);
         free(temp);
         if (!env_array[i])
-        {
-            free_array(env_array);
-            return (NULL);
-        }
+            return (free_array(env_array), NULL);
         current = current->next;
         i++;
     }
-    env_array[i] = NULL;
     return (env_array);
 }

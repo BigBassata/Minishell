@@ -15,26 +15,7 @@
 #include "minishell.h"
 
 int	g_signal = 0;
-
-/*
-** Cette fonction gère l'exécution d'un pipeline de commandes
-** Elle sera développée plus tard pour gérer les pipes correctement
-*/
-static int execute_pipeline(t_command *cmd_list, t_environment_var *env)
-{
-    int exit_code;
-    t_command *current;
-
-    current = cmd_list;
-    exit_code = 0;
     
-    // Pour l'instant, exécute la première commande
-    if (current)
-        exit_code = execute_command(current, env);
-
-    return (exit_code);
-}
-
 /*
 ** Fonction principale qui gère la boucle du shell
 ** Elle intègre le parsing de votre binôme avec votre partie exécution

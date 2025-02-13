@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:28:17 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 17:42:07 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/13 14:44:33 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	execute_builtin(t_command *cmd, t_environment_var **env)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	if (cmd->output_fd < 0)
+        cmd->output_fd = STDOUT_FILENO;
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		cmd->exit_code = ft_echo(cmd->args, cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)

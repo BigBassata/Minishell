@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/11 12:24:06 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 15:35:48 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ int	                update_or_create_oldpwd(t_environment_var *env);
 int	                update_or_create_pwd(t_environment_var *env);
 int	                cd_to_oldpwd(t_environment_var *env);
 int	                cd_with_tild(char **args, t_environment_var *env);
+int                 create_env_var_in_cd(t_environment_var **environment, const char *name, const char *value);
+
+
 void                free_array(char **array);
 
 //memory management 
@@ -70,6 +73,8 @@ char                *find_command_path(const char *command, t_environment_var *e
 int                 execute_command(t_command *cmd, t_environment_var *environment);
 t_cmd_type          get_command_type(t_command *cmd, t_environment_var *environment);
 enum e_state        check_command_type(const char *cmd);
+
+int execute_pipeline(t_command *cmd, t_environment_var *environment);
 
 //env
 int                 create_env_var(t_environment_var **environment, const char *name, const char *value);
