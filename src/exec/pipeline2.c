@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:50 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/13 17:52:23 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 18:15:39 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int prepare_command_execution(t_command *cmd, t_environment_var *env)
     if (!cmd_path)
     {
         print_error_exec_message(COMMAND_NOT_FOUND, cmd->args[0]);
-        exit(ERROR);
+        exit(127);
     }
     env_array = convert_env_to_array(env);
     if (!env_array)

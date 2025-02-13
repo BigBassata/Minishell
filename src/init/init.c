@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 17:31:04 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/13 18:08:38 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_environment_var *create_environment_node(char *envp)
     new_node = malloc(sizeof(t_environment_var));
     if (!new_node)
         return (NULL);
-    // Initialiser les champs de contrôle immédiatement après l'allocation
     new_node->ctr_d_in_heredoc = 0;
     new_node->last_exit_code = 0;
     new_node->next = NULL;
