@@ -63,9 +63,8 @@ void interactive_mode_ctrl_c(int signal)
     (void)signal;
     g_signal = 1;
     write(STDOUT_FILENO, "\n", 1);
-    rl_on_new_line();
     rl_replace_line("", 0);
-    rl_redisplay();
+    rl_on_new_line();
 }
 
 void	setup_signals_interactive_mode(t_environment_var *env)

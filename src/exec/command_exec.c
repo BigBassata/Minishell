@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:44:33 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/17 20:01:02 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
+
+static void setup_child_signals(void)
+{
+    // Restaure le comportement par défaut des signaux pour les processus enfants
+    signal(SIGINT, SIG_DFL);   // Ctrl+C termine le processus
+    signal(SIGQUIT, SIG_DFL);  // Ctrl+\ génère un core dump
+}
 
 static int handle_command_error(t_command *cmd, char *command_path)
 {
@@ -77,10 +84,19 @@ static int execute_external(t_command *cmd, t_environment_var *environment)
         return (ERROR);
     }
     if (pid == 0)
+    {
+        setup_child_signals();
         execute_child_process(cmd_path, cmd, env_array);
+    }
+    else 
+    {
+        signal(SIGINT, SIG_IGN);
+        signal(SIGQUIT, SIG_IGN);
+    }
     free(cmd_path);
     free_array(env_array);
     status = wait_for_child(pid);
+    setup_signals_interactive_mode(environment);
     return (status);
 }
 

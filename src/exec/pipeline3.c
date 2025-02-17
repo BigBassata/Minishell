@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:47 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/13 17:51:52 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/17 20:09:55 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ static int handle_wait_status(pid_t pid, int is_last, int *last_status)
     return (TRUE);
 }
 
+// int wait_for_pipeline(t_pipeline_info *info)
+// {
+//     int last_status;
+//     int i;
+
+//     if (!info || !info->process_ids || info->total_commands <= 0)
+//         return (0);
+//     last_status = 0;
+//     for (i = 0; i < info->total_commands; i++)
+//     {
+//         if (info->process_ids[i] > 0)
+//         {
+//             if (handle_wait_status(info->process_ids[i], 
+//                 i == info->total_commands - 1, 
+//                 &last_status) == ERROR)
+//                 return (ERROR);
+//         }
+//     }
+//     return (last_status);
+// }
+
 int wait_for_pipeline(t_pipeline_info *info)
 {
     int last_status;
@@ -54,16 +75,19 @@ int wait_for_pipeline(t_pipeline_info *info)
 
     if (!info || !info->process_ids || info->total_commands <= 0)
         return (0);
+
     last_status = 0;
-    for (i = 0; i < info->total_commands; i++)
+    i = 0;
+    while (i < info->total_commands)
     {
         if (info->process_ids[i] > 0)
         {
-            if (handle_wait_status(info->process_ids[i], 
-                i == info->total_commands - 1, 
+            if (handle_wait_status(info->process_ids[i],
+                i == info->total_commands - 1,
                 &last_status) == ERROR)
                 return (ERROR);
         }
+        i++;
     }
     return (last_status);
 }
