@@ -28,8 +28,13 @@ int main(int __attribute__((unused)) argc,
     if (!env)
         return (1);
 
+    signal(SIGINT, interactive_mode_ctrl_c);
+    signal(SIGQUIT, SIG_IGN);                
+        
     while (1)
     {
+        g_signal = 0;
+
         line = readline("minishell> ");
         if (!line)
         {
