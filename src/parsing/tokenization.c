@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int	tokenize_meta_chr(char **line, t_token **token_list)
 {
 	t_token	*token;

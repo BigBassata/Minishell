@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int	refine_delimiter(char **delimiter)
 {
 	char	*new_delimiter;

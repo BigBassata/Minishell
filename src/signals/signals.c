@@ -46,26 +46,26 @@
 // 	signal(SIGQUIT, SIG_IGN);
 // }
 
-// void	interactive_mode_ctrl_c(int signal)
-// {
-// 	if (g_signal != 130)
-// 	{
-// 		g_signal = signal;
-// 		write(STDOUT_FILENO, "\n", 1);	
-// 	}
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-void interactive_mode_ctrl_c(int signal)
+void	interactive_mode_ctrl_c(int signal)
 {
-    (void)signal;
-    g_signal = 1;
-    write(STDOUT_FILENO, "\n", 1);
-    rl_replace_line("", 0);
-    rl_on_new_line();
+	if (g_signal != 130)
+	{
+		g_signal = signal;
+		write(STDOUT_FILENO, "\n", 1);	
+	}
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
+
+// void interactive_mode_ctrl_c(int signal)
+// {
+//     (void)signal;
+//     g_signal = 1;
+//     write(STDOUT_FILENO, "\n", 1);
+//     rl_replace_line("", 0);
+//     rl_on_new_line();
+// }
 
 void	setup_signals_interactive_mode(t_environment_var *env)
 {

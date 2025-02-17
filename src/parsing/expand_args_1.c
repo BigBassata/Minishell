@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int	vars_values_lens(char *arg, t_environment_var *env, int *vars_len,
 	int *values_len)
 {
