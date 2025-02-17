@@ -19,6 +19,9 @@ int ft_env(t_environment_var *env, int fd_out)
         fd_out = STDOUT_FILENO;
     if (!env)
         return (0);
+	// si comme dans bash _? ne doit pas être affiché
+	if (env && ft_strcmp(env->key, "_?") == 0)
+		env = env->next;
     while (env)
     {
         if (env->value && *env->value)

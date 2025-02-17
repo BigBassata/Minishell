@@ -35,6 +35,9 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 	t_environment_var	*curr_env;
 
 	curr_env = env;
+	// si comme dans bash _? ne doit pas être affiché
+	if (curr_env && ft_strcmp(curr_env->key, "_?") == 0)
+		curr_env = curr_env->next;
 	while (curr_env)
 	{
 		ft_putstr_fd("declare -x ", fd_out);
