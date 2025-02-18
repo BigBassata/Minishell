@@ -129,40 +129,40 @@ int	update_or_create_oldpwd(t_environment_var *env)
 
 int ft_cd(char **args, t_environment_var *env)
 {
-    char *target_path;
-    
-    // cd sans arguments -> aller au HOME
+	char *target_path;
+	
+	// cd sans arguments -> aller au HOME
 	// ***Attention*** sujet demande: cd with only a relative or absolute path
-    if (nbr_of_args(args) == 1 || !args[1] || !*args[1])
-    {
-        target_path = get_env_value(env, "HOME");
-        if (!target_path)
-            return (print_error_exec_message(HOME_NOT_SET, "cd"), 1);
-    }
-    else if (nbr_of_args(args) > 2)
-        return (print_error_exec_message(TOO_MANY_ARGUMENTS, "cd"), 1);
-    else if (args[1][0] == '-' && args[1][1] == '\0')
-        return (cd_to_oldpwd(env));
-    else if (args[1][0] == '~')
-        return (cd_with_tild(args, env));
-    else
-        target_path = args[1];
+	if (nbr_of_args(args) == 1 || !args[1] || !*args[1])
+	{
+		target_path = get_env_value(env, "HOME");
+		if (!target_path)
+			return (print_error_exec_message(HOME_NOT_SET, "cd"), 1);
+	}
+	else if (nbr_of_args(args) > 2)
+		return (print_error_exec_message(TOO_MANY_ARGUMENTS, "cd"), 1);
+	else if (args[1][0] == '-' && args[1][1] == '\0')
+		return (cd_to_oldpwd(env));
+	else if (args[1][0] == '~')
+		return (cd_with_tild(args, env));
+	else
+		target_path = args[1];
 
-    // ***Attention*** bien s'assurer que PWD existe ici, sinon update_or_create_oldpwd() return ERROR
-    if (update_or_create_pwd(env) == ERROR)
-        return (1);
+	// ***Attention*** bien s'assurer que PWD existe ici, sinon update_or_create_oldpwd() return ERROR
+	if (update_or_create_pwd(env) == ERROR)
+		return (1);
 
-    // Changer de répertoire
-    if (chdir(target_path) == -1)
-        return (handle_cd_errors(target_path), 1);
+	// Changer de répertoire
+	if (chdir(target_path) == -1)
+		return (handle_cd_errors(target_path), 1);
 
-    // Sauvegarder l'ancien PWD avant de le mettre à jour
-    if (update_or_create_oldpwd(env) == ERROR)
-        return (1);
+	// Sauvegarder l'ancien PWD avant de le mettre à jour
+	if (update_or_create_oldpwd(env) == ERROR)
+		return (1);
 
-    // Mettre à jour PWD après le changement
-    if (update_or_create_pwd(env) == ERROR)
-        return (1);
+	// Mettre à jour PWD après le changement
+	if (update_or_create_pwd(env) == ERROR)
+		return (1);
 
-    return (0);
+	return (0);
 }
