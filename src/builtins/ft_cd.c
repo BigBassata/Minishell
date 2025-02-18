@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:43:42 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 14:48:34 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/18 16:00:37 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,31 +101,6 @@ int	update_or_create_oldpwd(t_environment_var *env)
 	}
 	return (TRUE);
 }
-
-// int	ft_cd(char **args, t_environment_var *env)
-// {
-// 	int chdir_result;
-
-// 	if (nbr_of_args(args) == 1 || !args[1] || !*args[1])
-// 		return (print_error_exec_message(CD_NEED_RELATIVE_OR_ABSOLUTE_PATH,
-// 				"cd"), 1);
-// 	if (nbr_of_args(args) > 2)
-// 		return (print_error_exec_message(TOO_MANY_ARGUMENTS, "cd"), 1);
-// 	if (args[1][0] == '-' && args[1][1] == '\0')
-// 		return (cd_to_oldpwd(env));
-// 	if (args[1][0] == '~')
-// 		return (cd_with_tild(args, env));
-// 	if (update_or_create_pwd(env) == ERROR)
-// 		return (1);
-// 	chdir_result = chdir(args[1]);
-// 	if (chdir_result == -1)
-// 		return (handle_cd_errors(args[1]), 1);
-// 	if (update_or_create_oldpwd(env) == ERROR)
-// 		return (1);
-// 	if (update_or_create_pwd(env) == ERROR)
-// 		return (1);
-// 	return (0);
-// }
 
 int ft_cd(char **args, t_environment_var *env)
 {

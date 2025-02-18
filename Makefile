@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+         #
+#    By: licohen <licohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:31:35 by licohen           #+#    #+#              #
-#    Updated: 2025/02/13 17:12:41 by liamcohen        ###   ########.fr        #
+#    Updated: 2025/02/18 15:42:47 by licohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SIGNALS_SRCS = signals.c signals_utils.c
 ERROR_SRCS = error_message.c error_message_2.c
 
 EXEC_SRCS = command_exec.c command_path.c command_utils.c environnement_utils.c \
-            environnement.c pipeline.c pipeline2.c pipeline3.c redirection.c redirections_utils.c utils.c \
+            environnement.c pipeline.c pipeline2.c pipeline3.c redirection.c redirections_utils.c utils.c utils2.c \
             
 BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
                 ft_echo.c ft_env.c ft_exit.c ft_export.c \

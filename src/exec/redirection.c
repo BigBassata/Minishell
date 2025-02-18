@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:02 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 16:44:52 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/18 15:53:08 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int handle_heredoc_input(t_command *cmd)
 static int handle_regular_input(t_command *cmd)
 {
     int input_fd;
-
+    
     if (access(cmd->input_path, F_OK) == -1)
     {
         print_error_exec_message(FILE_NOT_FOUND, cmd->input_path);
@@ -58,11 +58,7 @@ static int handle_regular_input(t_command *cmd)
         return (ERROR);
     }
     if (dup2(input_fd, STDIN_FILENO) == -1)
-    {
-        close(input_fd);
-        print_error_exec_message(DUP2_ERROR, cmd->input_path);
-        return (ERROR);
-    }
+        return (handle_dup2_input_error(input_fd, cmd->input_path));
     close(input_fd);
     return (TRUE);
 }
@@ -78,19 +74,17 @@ static int handle_input_file(t_command *cmd)
         return (handle_regular_input(cmd));
 }
 
-
 static int handle_output_file(t_command *cmd, int *prev_fds)
 {
     int output_fd;
     int flags;
-
+    
     if (!cmd->output_path)
         return (TRUE);
     if (cmd->is_append_mode)
         flags = O_WRONLY | O_CREAT | O_APPEND;
     else
         flags = O_WRONLY | O_CREAT | O_TRUNC;
-
     if (!check_output_permissions(cmd, prev_fds))
         return (ERROR);
     output_fd = open(cmd->output_path, flags, 0644);
@@ -100,11 +94,7 @@ static int handle_output_file(t_command *cmd, int *prev_fds)
         return (ERROR);
     }
     if (dup2(output_fd, STDOUT_FILENO) == -1)
-    {
-        close(output_fd);
-        print_error_exec_message(DUP2_ERROR, cmd->output_path);
-        return (ERROR);
-    }
+        return (handle_dup2_error(output_fd, cmd->output_path));
     close(output_fd);
     return (TRUE);
 }

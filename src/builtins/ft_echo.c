@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:43:45 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 18:15:36 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/18 15:55:26 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ static int handle_no_args(int fd_out)
 
 static void print_args(char **array, int start_index, int fd_out)
 {
-    int i = start_index;
+    int i;
+    char *arg;
+    
+    i = start_index;
     while (array[i])
     {
-        char *arg = array[i];
+        arg = array[i];
         if (arg[0] == '"' && arg[ft_strlen(arg) - 1] == '"')
         {
             arg++;

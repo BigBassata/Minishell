@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/17 20:03:42 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/18 15:53:50 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,19 @@ enum e_state        check_command_type(const char *cmd);
 
 /* Pipeline management */
 // Main pipeline functions
-void    cleanup_pipeline(t_pipeline_info *info);
-void    close_pipe_fds(int *pipe_fds);
-int     initialize_pipeline(t_pipeline_info *info, t_command *cmd);
-int     execute_pipeline(t_command *cmd, t_environment_var *environment);
-int     execute_builtin_parent(t_command *cmd, t_environment_var *env);  // Ajouté
-
+void                cleanup_pipeline(t_pipeline_info *info);
+void                close_pipe_fds(int *pipe_fds);
+int                 initialize_pipeline(t_pipeline_info *info, t_command *cmd);
+int                 execute_pipeline(t_command *cmd, t_environment_var *environment);
+int                 execute_builtin_parent(t_command *cmd, t_environment_var *env);  // Ajouté
+int                 handle_dup2_error(int fd, char *path);
 // Pipeline execution
-int     execute_piped_command(t_command *cmd, t_environment_var *env, 
+int                 execute_piped_command(t_command *cmd, t_environment_var *env, 
                              t_pipeline_info *info);
-int     check_builtin_execution(t_command *cmd);
+int                 check_builtin_execution(t_command *cmd);
 
 // Pipeline wait management
-int     wait_for_pipeline(t_pipeline_info *info);
+int                 wait_for_pipeline(t_pipeline_info *info);
 
 //env
 int                 create_env_var(t_environment_var **environment, const char *name, const char *value);
@@ -106,6 +106,8 @@ int                 check_output_permissions(t_command *cmd, int *prev_fds);
 int                 check_input_permissions(t_command *cmd, int *prev_fds);
 int                 setup_fd_backup(int *prev_in_fd, int *prev_out_fd);
 void                cleanup_fds(int prev_in_fd, int prev_out_fd);
+int                 handle_dup2_input_error(int fd, char *path);
+
 
 //process 
 int                 wait_for_child(pid_t pid);

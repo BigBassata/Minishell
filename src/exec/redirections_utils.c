@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:28:10 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:53:42 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/18 15:45:36 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
-void cleanup_fds(int prev_in_fd, int prev_out_fd)
-{
-    if (prev_in_fd != -1)
-        close(prev_in_fd);
-    if (prev_out_fd != -1)
-        close(prev_out_fd);
-}
 
 static void restore_fds(int *prev_fds)
 {
@@ -39,11 +31,33 @@ int setup_fd_backup(int *prev_in_fd, int *prev_out_fd)
     return (TRUE);
 }
 
-int check_output_permissions(t_command *cmd, int *prev_fds)
+static int check_directory_permission(char *path, int *prev_fds)
 {
     char *dir_path;
     char *last_slash;
+    
+    dir_path = ft_strdup(path);
+    if (!dir_path)
+        return (ERROR);
+    
+    last_slash = ft_strrchr(dir_path, '/');
+    if (last_slash)
+    {
+        *last_slash = '\0';
+        if (access(dir_path, W_OK) == -1)
+        {
+            free(dir_path);
+            print_error_exec_message(PERMISSION_DENIED, path);
+            restore_fds(prev_fds);
+            return (FALSE);
+        }
+    }
+    free(dir_path);
+    return (TRUE);
+}
 
+int check_output_permissions(t_command *cmd, int *prev_fds)
+{
     if (access(cmd->output_path, F_OK) == 0)
     {
         if (access(cmd->output_path, W_OK) == -1)
@@ -54,23 +68,7 @@ int check_output_permissions(t_command *cmd, int *prev_fds)
         }
         return (TRUE);
     }
-    dir_path = ft_strdup(cmd->output_path);
-    if (!dir_path)
-        return (ERROR);
-    last_slash = ft_strrchr(dir_path, '/');
-    if (last_slash)
-    {
-        *last_slash = '\0';
-        if (access(dir_path, W_OK) == -1)
-        {
-            free(dir_path);
-            print_error_exec_message(PERMISSION_DENIED, cmd->output_path);
-            restore_fds(prev_fds);
-            return (FALSE);
-        }
-    }
-    free(dir_path);
-    return (TRUE);
+    return (check_directory_permission(cmd->output_path, prev_fds));
 }
 
 int setup_output_fd(t_command *cmd, int flags, int *prev_fds)

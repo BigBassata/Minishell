@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:28:17 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 17:41:55 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/18 15:59:54 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
 
 int	is_builtin(char *cmd)
 {
@@ -27,7 +26,7 @@ void	execute_builtin(t_command *cmd, t_environment_var **env)
 		return ;
 	if (cmd->output_fd < 0)
         cmd->output_fd = STDOUT_FILENO;
-	if (ft_strcmp(cmd->args[0], "echo") == 0)
+	if	(ft_strcmp(cmd->args[0], "echo") == 0)
 		cmd->exit_code = ft_echo(cmd->args, cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		cmd->exit_code = ft_cd(cmd->args, *env);

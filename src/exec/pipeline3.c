@@ -6,11 +6,20 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:47 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/17 20:09:55 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/18 15:37:45 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
+
+int check_builtin_execution(t_command *cmd)
+{
+    return (cmd->next == NULL && is_builtin(cmd->args[0]) &&
+            (ft_strcmp(cmd->args[0], "cd") == 0 || 
+             ft_strcmp(cmd->args[0], "exit") == 0 ||
+             ft_strcmp(cmd->args[0], "export") == 0 ||
+             ft_strcmp(cmd->args[0], "unset") == 0));
+}
 
 static int get_exit_status(int status)
 {
@@ -47,26 +56,6 @@ static int handle_wait_status(pid_t pid, int is_last, int *last_status)
     return (TRUE);
 }
 
-// int wait_for_pipeline(t_pipeline_info *info)
-// {
-//     int last_status;
-//     int i;
-
-//     if (!info || !info->process_ids || info->total_commands <= 0)
-//         return (0);
-//     last_status = 0;
-//     for (i = 0; i < info->total_commands; i++)
-//     {
-//         if (info->process_ids[i] > 0)
-//         {
-//             if (handle_wait_status(info->process_ids[i], 
-//                 i == info->total_commands - 1, 
-//                 &last_status) == ERROR)
-//                 return (ERROR);
-//         }
-//     }
-//     return (last_status);
-// }
 
 int wait_for_pipeline(t_pipeline_info *info)
 {

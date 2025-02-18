@@ -6,12 +6,11 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 19:24:11 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 18:40:30 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/18 15:28:16 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
 
 int ft_env(t_environment_var *env, int fd_out)
 {
@@ -19,9 +18,9 @@ int ft_env(t_environment_var *env, int fd_out)
         fd_out = STDOUT_FILENO;
     if (!env)
         return (0);
-	// si comme dans bash _? ne doit pas être affiché
-	if (env && ft_strcmp(env->key, "_?") == 0)
-		env = env->next;
+    // si comme dans bash _? ne doit pas être affiché
+    if (env && ft_strcmp(env->key, "_?") == 0)
+        env = env->next;
     while (env)
     {
         if (env->value && *env->value)

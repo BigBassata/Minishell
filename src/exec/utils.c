@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:45:20 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:22:56 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/18 15:58:01 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,30 +64,15 @@ void cleanup_command(t_command *cmd)
 
 void cleanup_all(t_environment_var *env, t_command *cmd, int exit_code)
 {
+    t_command *next;
     if (env)
         cleanup_environment(env);
     while (cmd)
     {
-        t_command *next = cmd->next;
+        next = cmd->next;
         cleanup_command(cmd);
         cmd = next;
     }
     if (exit_code != -1)
         exit(exit_code);
-}
-
-void    free_array(char **array)
-{
-    int i;
-
-    if (!array)
-        return;
-    i = 0;
-    while (array[i])
-    {
-        free(array[i]);
-        array[i] = NULL;
-        i++;
-    }
-    free(array);
 }
