@@ -76,3 +76,16 @@ void	setup_signals_interactive_mode(t_environment_var *env)
 	signal(SIGINT, interactive_mode_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	exec_mode_ctrl_c(int signal)
+{
+	(void)signal;
+	g_signal = 127 + SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	setup_signals_exec_mode(void)
+{
+	signal(SIGINT, exec_mode_ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+}
