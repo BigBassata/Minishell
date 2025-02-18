@@ -101,6 +101,7 @@ void	            del_environment(t_environment_var *envp);
 
 //redir
 int                 setup_redirections(t_command *cmd);
+int                 build_heredoc_file_path(char *heredoc_file_path, char *input_path);
 int                 setup_output_fd(t_command *cmd, int flags, int *prev_fds);
 int                 check_output_permissions(t_command *cmd, int *prev_fds);
 int                 check_input_permissions(t_command *cmd, int *prev_fds);

@@ -14,27 +14,27 @@
 
 static int handle_heredoc_input(t_command *cmd)
 {
-    int input_fd;
+	int		input_fd;
+	char 	heredoc_file_path[100];
 
-    if (!cmd->heredoc_delim || !cmd->input_path)
-        return (TRUE);
-
-    input_fd = open(cmd->input_path, O_RDONLY);
-    if (input_fd == -1)
-    {
-        print_error_exec_message(HEREDOC_ERROR, cmd->heredoc_delim);
-        return (ERROR);
-    }
-
-    if (dup2(input_fd, STDIN_FILENO) == -1)
-    {
-        close(input_fd);
-        print_error_exec_message(DUP2_ERROR, cmd->input_path);
-        return (ERROR);
-    }
-
-    close(input_fd);
-    return (TRUE);
+	if (!cmd->heredoc_delim || !cmd->input_path)
+		return (TRUE);
+	if (build_heredoc_file_path(heredoc_file_path, cmd->input_path) == ERROR)
+		return (ERROR);
+	input_fd = open(heredoc_file_path, O_RDONLY);
+	if (input_fd == -1)
+	{
+		print_error_exec_message(HEREDOC_ERROR, cmd->heredoc_delim);
+		return (ERROR);
+	}
+	if (dup2(input_fd, STDIN_FILENO) == -1)
+	{
+		close(input_fd);
+		print_error_exec_message(DUP2_ERROR, cmd->input_path);
+		return (ERROR);
+	}
+	close(input_fd);
+	return (TRUE);
 }
 
 static int handle_regular_input(t_command *cmd)
