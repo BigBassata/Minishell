@@ -79,7 +79,7 @@ void	free_cmd_list(t_command *first_cmd)
 		if (tmp->input_path && tmp->is_heredoc)
 		{
 			build_heredoc_file_path(heredoc_file_path, tmp->input_path);
-			unlink(heredoc_file_path);        
+			unlink(heredoc_file_path); 
 		}
 		if (tmp->input_path)
 			free(tmp->input_path);

@@ -92,6 +92,7 @@ int execute_pipeline(t_command *cmd, t_environment_var *environment)
 
     if (!cmd || !environment)
         return (ERROR);
+    setup_signals_exec_mode();
     if (!cmd->next && check_builtin_execution(cmd))
         return (execute_builtin_parent(cmd, environment));
     if (initialize_pipeline(&info, cmd) == ERROR)

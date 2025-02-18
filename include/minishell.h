@@ -79,6 +79,8 @@ void		handle_cd_errors(char *word);
 // SIGNALS
 void		interactive_mode_ctrl_c(int signal);
 void		setup_signals_interactive_mode(t_environment_var *env);
+void        exec_mode_ctrl_c(int signal);
+void        setup_signals_exec_mode(void);
 
 // SIGNALS UTILS
 void		handle_heredoc_ctr_d(char *delimiter, t_environment_var *env);
