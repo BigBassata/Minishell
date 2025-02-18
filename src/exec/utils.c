@@ -49,10 +49,17 @@ void cleanup_environment(t_environment_var *environment)
 
 void cleanup_command(t_command *cmd)
 {
+    char    heredoc_file_path[100];
+
     if (!cmd)
         return;
     if (cmd->args)
         free_array(cmd->args);
+    if (cmd->input_path && cmd->is_heredoc)
+    {
+        build_heredoc_file_path(heredoc_file_path, cmd->input_path);
+        unlink(heredoc_file_path);        
+    }
     if (cmd->input_path)
         free(cmd->input_path);
     if (cmd->output_path)

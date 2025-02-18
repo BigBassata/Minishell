@@ -65,6 +65,7 @@ void	free_cmd_args(char **args)
 
 void	free_cmd_list(t_command *first_cmd)
 {
+	char		heredoc_file_path[100];
 	t_command	*tmp;
 
 	while (first_cmd)
@@ -76,7 +77,10 @@ void	free_cmd_list(t_command *first_cmd)
 		if (tmp->args)
 			free_cmd_args(tmp->args);
 		if (tmp->input_path && tmp->is_heredoc)
-			unlink(tmp->input_path);
+		{
+			build_heredoc_file_path(heredoc_file_path, tmp->input_path);
+			unlink(heredoc_file_path);        
+		}
 		if (tmp->input_path)
 			free(tmp->input_path);
 		if (tmp->output_path)
