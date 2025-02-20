@@ -31,16 +31,12 @@ t_command	*data_parsing(char *line, t_environment_var *env)
 	return (cmd_list);
 }
 
-int	main(int argc, char __attribute__((unused)) **argv, char **envp)
+void	minishell_loop(t_environment_var *env)
 {
-	char				*line;
-	t_command			*cmd_list;
-	t_environment_var	*env;
+	char		*line;
+	t_command	*cmd_list;
 
-	env = initialize_shell(envp);
-	if (!env)
-		return (1);
-	while (argc == 1)
+	while (1)
 	{
 		setup_signals_interactive_mode(env);
 		line = readline("minishell> ");
@@ -55,10 +51,24 @@ int	main(int argc, char __attribute__((unused)) **argv, char **envp)
 		cmd_list = data_parsing(line, env);
 		if (!cmd_list)
 			continue ;
+		setup_signals_exec_mode();
 		env->last_exit_code = execute_pipeline(cmd_list, env);
 		free_cmd_list(cmd_list);
 	}
 	rl_clear_history();
 	cleanup_all(env, NULL, 0);
+}
+
+int	main(int argc, char __attribute__((unused)) **argv, char **envp)
+{
+	t_environment_var	*env;
+
+	if (!isatty(0) || !isatty(1))
+		return (0);
+	env = initialize_shell(envp);
+	if (!env)
+		return (1);
+	if (argc == 1)
+		minishell_loop(env);
 	return (0);
 }

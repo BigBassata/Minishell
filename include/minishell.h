@@ -37,6 +37,7 @@
 extern int	g_signal;
 
 // FUNCTIONS ////////////////////////////////////////////////////////////////
+void		minishell_loop(t_environment_var *env);
 t_command	*data_parsing(char *line, t_environment_var *env);
 
 // ERROR

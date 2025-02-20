@@ -37,7 +37,7 @@ void	setup_signals_interactive_mode(t_environment_var *env)
 void	exec_mode_ctrl_c(int signal)
 {
 	(void)signal;
-	g_signal = 127 + SIGINT;
+	g_signal = 128 + SIGINT;
 	write(STDOUT_FILENO, "\n", 1);
 }
 
