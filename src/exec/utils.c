@@ -6,80 +6,48 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:45:20 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/18 15:58:01 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:58:42 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 
-void cleanup_ptr(void *ptr)
+void cleanup_fds(int prev_in_fd, int prev_out_fd)
 {
-    if (ptr)
-    {
-        free(ptr);
-        ptr = NULL;
-    }
+    if (prev_in_fd != -1)
+        close(prev_in_fd);
+    if (prev_out_fd != -1)
+        close(prev_out_fd);
 }
 
-void cleanup_env_node(t_environment_var *node)
+int handle_dup2_error(int fd, char *path)
 {
-    if (node)
-    {
-        if (node->key)
-            free(node->key);
-        if (node->value)
-            free(node->value);
-        free(node);
-    }
+    close(fd);
+    print_error_exec_message(DUP2_ERROR, path);
+    return (ERROR);
 }
 
-void cleanup_environment(t_environment_var *environment)
+int handle_dup2_input_error(int fd, char *path)
 {
-    t_environment_var *current;
-    t_environment_var *next;
-
-    current = environment;
-    while (current)
-    {
-        next = current->next;
-        cleanup_env_node(current);
-        current = next;
-    }
+    close(fd);
+    print_error_exec_message(DUP2_ERROR, path);
+    return (ERROR);
 }
 
-void cleanup_command(t_command *cmd)
+void setup_child_signals(void)
 {
-    char    heredoc_file_path[100];
-
-    if (!cmd)
-        return;
-    if (cmd->args)
-        free_array(cmd->args);
-    if (cmd->input_path && cmd->is_heredoc)
-    {
-        build_heredoc_file_path(heredoc_file_path, cmd->input_path);
-        unlink(heredoc_file_path);  
-    }
-    if (cmd->input_path)
-        free(cmd->input_path);
-    if (cmd->output_path)
-        free(cmd->output_path);
-    if (cmd->heredoc_delim)
-        free(cmd->heredoc_delim);
-    free(cmd);
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
 }
 
-void cleanup_all(t_environment_var *env, t_command *cmd, int exit_code)
+
+int handle_external_parent(pid_t pid, t_environment_var *environment)
 {
-    t_command *next;
-    if (env)
-        cleanup_environment(env);
-    while (cmd)
-    {
-        next = cmd->next;
-        cleanup_command(cmd);
-        cmd = next;
-    }
-    if (exit_code != -1)
-        exit(exit_code);
+    int status;
+    
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+    status = wait_for_child(pid);
+    setup_signals_interactive_mode(environment);
+    return (status);
 }

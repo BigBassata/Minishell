@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:14:54 by licohen           #+#    #+#             */
-/*   Updated: 2025/01/28 18:44:42 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/20 14:47:57 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 	t_environment_var	*curr_env;
 
 	curr_env = env;
-	// si comme dans bash _? ne doit pas être affiché
 	if (curr_env && ft_strcmp(curr_env->key, "_?") == 0)
 		curr_env = curr_env->next;
 	while (curr_env)

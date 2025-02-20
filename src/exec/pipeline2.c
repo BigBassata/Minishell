@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:50 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/18 15:51:34 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:59:37 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int setup_child_process(t_command *cmd, t_pipeline_info *info, int next_p
     return (setup_redirections(cmd));
 }
 
-static int handle_parent_process(t_pipeline_info *info, pid_t pid, int next_pipe[2])
+static int handle_pipeline_parent(t_pipeline_info *info, pid_t pid, int next_pipe[2])
 {
     info->process_ids[info->current_index] = pid;
     if (info->prev_pipe[0] != -1)
@@ -110,5 +110,5 @@ int execute_piped_command(t_command *cmd, t_environment_var *env,
         prepare_command_execution(cmd, env);
     }
     
-    return (handle_parent_process(info, pid, next_pipe));
+    return (handle_pipeline_parent(info, pid, next_pipe));
 }

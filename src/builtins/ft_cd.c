@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:43:42 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/18 16:00:37 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:47:17 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int ft_cd(char **args, t_environment_var *env)
 {
 	char *target_path;
 	
-	// cd sans arguments -> aller au HOME
-	// ***Attention*** sujet demande: cd with only a relative or absolute path
 	if (nbr_of_args(args) == 1 || !args[1] || !*args[1])
 	{
 		target_path = get_env_value(env, "HOME");
@@ -122,22 +120,13 @@ int ft_cd(char **args, t_environment_var *env)
 		return (cd_with_tild(args, env));
 	else
 		target_path = args[1];
-
-	// ***Attention*** bien s'assurer que PWD existe ici, sinon update_or_create_oldpwd() return ERROR
 	if (update_or_create_pwd(env) == ERROR)
 		return (1);
-
-	// Changer de répertoire
 	if (chdir(target_path) == -1)
 		return (handle_cd_errors(target_path), 1);
-
-	// Sauvegarder l'ancien PWD avant de le mettre à jour
 	if (update_or_create_oldpwd(env) == ERROR)
 		return (1);
-
-	// Mettre à jour PWD après le changement
 	if (update_or_create_pwd(env) == ERROR)
 		return (1);
-
 	return (0);
 }

@@ -6,16 +6,11 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:12:09 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 18:23:38 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:48:03 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
-/*
-** ft_pwd : built-in pwd
-** affiche le chemin du repertoire courant
-*/
 
 int ft_pwd(int fd_out)
 {

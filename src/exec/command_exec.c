@@ -6,18 +6,11 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/17 20:01:02 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:59:16 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
-static void setup_child_signals(void)
-{
-    // Restaure le comportement par défaut des signaux pour les processus enfants
-    signal(SIGINT, SIG_DFL);   // Ctrl+C termine le processus
-    signal(SIGQUIT, SIG_DFL);  // Ctrl+\ génère un core dump
-}
 
 static int handle_command_error(t_command *cmd, char *command_path)
 {
@@ -68,10 +61,9 @@ static int initialize_execution(t_command *cmd, t_environment_var *environment,
 
 static int execute_external(t_command *cmd, t_environment_var *environment)
 {
-    char    *cmd_path;
-    char    **env_array;
-    pid_t   pid;
-    int     status;
+    char *cmd_path;
+    char **env_array;
+    pid_t pid;
 
     if (initialize_execution(cmd, environment, &cmd_path, &env_array) == ERROR)
         return (ERROR);
@@ -88,17 +80,11 @@ static int execute_external(t_command *cmd, t_environment_var *environment)
         setup_child_signals();
         execute_child_process(cmd_path, cmd, env_array);
     }
-    else 
-    {
-        signal(SIGINT, SIG_IGN);
-        signal(SIGQUIT, SIG_IGN);
-    }
     free(cmd_path);
     free_array(env_array);
-    status = wait_for_child(pid);
-    setup_signals_interactive_mode(environment);
-    return (status);
+    return (handle_external_parent(pid, environment));
 }
+
 
 int execute_command(t_command *cmd, t_environment_var *environment)
 {

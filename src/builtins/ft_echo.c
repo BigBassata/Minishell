@@ -6,18 +6,12 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:43:45 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/18 15:55:26 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:47:36 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 
-/*
-** ft_echo : built-in echo
-** Cette fonction vérifie si une option -n est valide
-** Une option -n valide commence par '-' suivi d'un ou plusieurs 'n'
-** Retourne 1 si l'option est valide, 0 sinon
-*/
 static int is_valid_n_option(const char *str)
 {
     size_t i;
@@ -36,22 +30,11 @@ static int is_valid_n_option(const char *str)
     return (1);
 }
 
-/*
-** Cette fonction gère le cas où echo est appelé sans arguments
-** Elle imprime simplement un retour à la ligne
-** Retourne toujours 0 comme spécifié par la norme POSIX
-*/
 static int handle_no_args(int fd_out)
 {
     ft_putchar_fd('\n', fd_out);
     return (0);
 }
-
-/*
-** Cette fonction gère l'impression des arguments
-** Elle imprime chaque argument suivi d'un espace si ce n'est pas le dernier
-** Retourne le nombre d'arguments imprimés
-*/
 
 static void print_args(char **array, int start_index, int fd_out)
 {

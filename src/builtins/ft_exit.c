@@ -6,17 +6,11 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:14:07 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 18:40:27 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:47:50 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
-// static int is_len_one(int fd_out)
-// {
-//     ft_putendl_fd("exit", fd_out);
-//     return (0);
-// }
 
 static int handle_exit_error(t_error error, char *word)
 {
@@ -33,10 +27,6 @@ static int handle_exit_error(t_error error, char *word)
     return (0);
 }
 
-/*
-** Cette fonction vérifie si un nombre est dans les limites d'un long
-** Elle compare avec la valeur maximale d'un long pour éviter les dépassements
-*/
 static int is_within_long_limits(const char *str, int start_index)
 {
     const char *max_long;
