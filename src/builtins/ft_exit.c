@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:14:07 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 14:47:50 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:37:53 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	is_within_long_limits(const char *str, int start_index)
 	size_t		str_len;
 	int			i;
 
-	max_long = "9223372036854775807";
+	max_long = MAX_LONG;
 	str_len = 0;
 	i = start_index;
 	while (str[i] && ft_isdigit(str[i]))
@@ -47,7 +47,7 @@ static int	is_within_long_limits(const char *str, int start_index)
 	{
 		if (str[0] == '-')
 		{
-			if (ft_strncmp(&str[start_index], "9223372036854775808", str_len) > 0)
+			if (ft_strncmp(&str[start_index], MAX_LONG_PLUS_1, str_len) > 0)
 				return (0);
 		}
 		else if (ft_strncmp(&str[start_index], max_long, str_len) > 0)

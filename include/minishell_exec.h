@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 14:58:56 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:37:38 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define EXPORT 4
 # define PWD 5
 # define UNSET 6
+
+# define MAX_LONG "9223372036854775807"
+# define MAX_LONG_PLUS_1 "9223372036854775808"
 
 # define PATH_SEPARATOR ':'
 # define DIR_SEPARATOR "/"
