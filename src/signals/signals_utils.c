@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-// int	ctrl_c_in_main_loop(char *line)
-// {
-// 	if (g_signal == 1)
-// 		return (free(line), TRUE);
-// 	return (FALSE);
-// }
-
-// void	handle_heredoc_ctr_d(void)
-// {
-// 	print_error_message("warning: here-document delimited "
-// 		"by end-of-file (wanted delimiter)");
-// 	setup_signals_interactive_mode();
-// }
-
-
 void	handle_heredoc_ctr_d(char *delimiter, t_environment_var *env)
 {
 	g_signal = 128 + SIGINT;

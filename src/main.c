@@ -1,5 +1,3 @@
-#include "minishell.h"
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -23,7 +21,7 @@ t_command	*data_parsing(char *line, t_environment_var *env)
 
 	token_list = tokenize_line(line);
 	if (!token_list)
-		return (NULL);	
+		return (NULL);
 	cmd_list = parse_token_list(token_list, env);
 	if (!cmd_list)
 		return (NULL);
@@ -32,19 +30,17 @@ t_command	*data_parsing(char *line, t_environment_var *env)
 		return (NULL);
 	return (cmd_list);
 }
-    
-int main(int __attribute__((unused)) argc, 
-		char __attribute__((unused)) **argv, 
-		char **envp)
+
+int	main(int argc, char __attribute__((unused)) **argv, char **envp)
 {
-	char *line;
-	t_command *cmd_list;
-	t_environment_var *env;
+	char				*line;
+	t_command			*cmd_list;
+	t_environment_var	*env;
+
 	env = initialize_shell(envp);
 	if (!env)
 		return (1);
-		
-	while (1)
+	while (argc == 1)
 	{
 		setup_signals_interactive_mode(env);
 		line = readline("minishell> ");

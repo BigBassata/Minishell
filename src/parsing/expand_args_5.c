@@ -25,7 +25,7 @@ int	handle_cpy_expanded_var(char **dest, char **src,
 	if (get_env_var_len(tmp_var) == 0)
 		return (free(tmp_var), ERROR);
 	var_value_len = len[1] + get_env_var_value_len(tmp_var,
-		get_env_var_len(tmp_var), env);
+			get_env_var_len(tmp_var), env);
 	while (var_value_len >= len[0] - 1)
 	{
 		old_len_0 = len[0];
@@ -34,7 +34,7 @@ int	handle_cpy_expanded_var(char **dest, char **src,
 		if (old_len_0 == len[0])
 			return (free(tmp_var), ERROR);
 		var_value_len = len[1] + get_env_var_value_len(tmp_var,
-			get_env_var_len(tmp_var), env);
+				get_env_var_len(tmp_var), env);
 	}	
 	cpy_expanded_var(*dest, &len[1], tmp_var, env);
 	*src += get_env_var_len(tmp_var);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_utils2.c                               :+:      :+:    :+:   */
+/*   redirections_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,10 +12,10 @@
 
 #include "minishell_exec.h"
 
-int build_heredoc_file_path(char *heredoc_file_path, char *input_path)
+int	build_heredoc_file_path(char *heredoc_file_path, char *input_path)
 {
-	int path_len;
-	int file_len;
+	int	path_len;
+	int	file_len;
 
 	ft_memset(heredoc_file_path, 0, 100);
 	ft_strlcpy(heredoc_file_path, TMP_DIR, 100);

@@ -63,13 +63,13 @@ int	update_or_create_pwd(t_environment_var *env)
 	if (!is_env_var_exist("PWD", env))
 	{
 		if (create_env_var_in_cd(&env, "PWD", current_dir) == ERROR)
-			return (free(current_dir), 
+			return (free(current_dir),
 				print_error_message("cd: error create PWD var"), ERROR);
 	}
 	else
 	{
 		if (update_env_var_value("PWD", current_dir, env) == ERROR)
-			return (free(current_dir), 
+			return (free(current_dir),
 				print_error_message("cd: error update PWD var"), ERROR);
 	}
 	free(current_dir);
@@ -102,10 +102,10 @@ int	update_or_create_oldpwd(t_environment_var *env)
 	return (TRUE);
 }
 
-int ft_cd(char **args, t_environment_var *env)
+int	ft_cd(char **args, t_environment_var *env)
 {
-	char *target_path;
-	
+	char	*target_path;
+
 	if (nbr_of_args(args) == 1 || !args[1] || !*args[1])
 	{
 		target_path = get_env_value(env, "HOME");

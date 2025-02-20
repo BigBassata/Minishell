@@ -12,52 +12,47 @@
 
 #include "minishell_exec.h"
 
-enum e_state check_command_type(const char *cmd)
+enum e_state	check_command_type(const char *cmd)
 {
-    if (!cmd || !*cmd)
-        return (ERROR);
-    if (cmd[0] == '/' || cmd[0] == '.')
-        return (TRUE);
-    return (FALSE);
+	if (!cmd || !*cmd)
+		return (ERROR);
+	if (cmd[0] == '/' || cmd[0] == '.')
+		return (TRUE);
+	return (FALSE);
 }
 
-t_cmd_type get_command_type(t_command *cmd, t_environment_var *environment)
+t_cmd_type	get_command_type(t_command *cmd, t_environment_var *environment)
 {
-    char *cmd_path;
+	char	*cmd_path;
 
-    if (!cmd || !cmd->args || !cmd->args[0])
-        return (CMD_ERROR);
-        
-    if (is_builtin(cmd->args[0]))
-        return (CMD_BUILTIN);
-        
-    cmd_path = find_command_path(cmd->args[0], environment);
-    if (cmd_path)
-    {
-        free(cmd_path);
-        return (CMD_EXTERNAL);
-    }
-    
-    return (CMD_NOT_FOUND);
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (CMD_ERROR);
+	if (is_builtin(cmd->args[0]))
+		return (CMD_BUILTIN);
+	cmd_path = find_command_path(cmd->args[0], environment);
+	if (cmd_path)
+	{
+		free(cmd_path);
+		return (CMD_EXTERNAL);
+	}
+	return (CMD_NOT_FOUND);
 }
 
-int wait_for_child(pid_t pid)
+int	wait_for_child(pid_t pid)
 {
-    int status;
-    int exit_status;
-    
-    if (waitpid(pid, &status, 0) == -1)
-    {
-        print_error_exec_message(WAITPID_ERROR, NULL);
-        return (ERROR);
-    }
-    
-    if (WIFEXITED(status))
-        exit_status = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-        exit_status = 128 + WTERMSIG(status);
-    else
-        exit_status = ERROR;
-        
-    return (exit_status);
+	int	status;
+	int	exit_status;
+
+	if (waitpid(pid, &status, 0) == -1)
+	{
+		print_error_exec_message(WAITPID_ERROR, NULL);
+		return (ERROR);
+	}
+	if (WIFEXITED(status))
+		exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exit_status = 128 + WTERMSIG(status);
+	else
+		exit_status = ERROR;
+	return (exit_status);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell_exec.h"
 
-int ft_env(t_environment_var *env, int fd_out)
+int	ft_env(t_environment_var *env, int fd_out)
 {
 	if (fd_out < 0)
 		fd_out = STDOUT_FILENO;

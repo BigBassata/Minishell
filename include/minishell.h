@@ -34,32 +34,6 @@
 # include "minishell_exec.h"
 # include "minishell_struct.h"
 
-// extern int	g_signal;
-
-// // FUNCTIONS ////////////////////////////////////////////////////////////////
-// t_command   *data_parsing(char *line, t_environment_var *env);
-
-// // ERROR
-// void	print_syntax_error(t_error error);
-// void	print_syntax_error_message(char *message);
-// char	*get_error_exec_message(t_error error);
-// void	print_error_exec_message(t_error error, char *word);
-// void	print_error_message(char *word);
-
-// char    *get_error_exec_message_2(t_error error);
-// char	*get_error_exec_message_3(t_error error);
-// void    handle_cd_errors(char *word);
-
-// // SIGNALS
-// void	interactive_mode_ctrl_c(int signal);
-// void	setup_signals_interactive_mode(void);
-// void	heredoc_ctrl_c(int signal);
-// void	setup_signals_heredoc_mode(void);
-
-// // SIGNALS UTILS
-// int     ctrl_c_in_main_loop(char *line);
-// void    handle_heredoc_ctr_d(void);
-
 extern int	g_signal;
 
 // FUNCTIONS ////////////////////////////////////////////////////////////////
@@ -79,8 +53,8 @@ void		handle_cd_errors(char *word);
 // SIGNALS
 void		interactive_mode_ctrl_c(int signal);
 void		setup_signals_interactive_mode(t_environment_var *env);
-void        exec_mode_ctrl_c(int signal);
-void        setup_signals_exec_mode(void);
+void		exec_mode_ctrl_c(int signal);
+void		setup_signals_exec_mode(void);
 
 // SIGNALS UTILS
 void		handle_heredoc_ctr_d(char *delimiter, t_environment_var *env);

@@ -27,8 +27,8 @@ void	execute_builtin(t_command *cmd, t_environment_var **env)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
 	if (cmd->output_fd < 0)
-        cmd->output_fd = STDOUT_FILENO;
-	if	(ft_strcmp(cmd->args[0], "echo") == 0)
+		cmd->output_fd = STDOUT_FILENO;
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		cmd->exit_code = ft_echo(cmd->args, cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		cmd->exit_code = ft_cd(cmd->args, *env);

@@ -16,7 +16,6 @@
 # include "minishell.h"
 # include "minishell_struct.h"
 
-
 // line_validation_1.c
 int			is_null_line(char *line);
 int			is_void_case(char *line);
@@ -102,7 +101,8 @@ int			are_quotes_in_arg(char *arg);
 int			cpy_arg_without_quotes(char **dst, char *src);
 
 // expand_args_5.c
-int			handle_cpy_expanded_var(char **dest, char **src, t_environment_var *env, int *len);
+int			handle_cpy_expanded_var(char **dest, char **src,
+				t_environment_var *env, int *len);
 
 // heredoc.c
 char		*handle_here_doc(int *file_nb, char *delimiter,
