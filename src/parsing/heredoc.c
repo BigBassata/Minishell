@@ -86,7 +86,7 @@ int	create_here_doc_file(char *file_path, char *delimiter,
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || (line && ft_strcmp(delimiter, line) == 0) || g_signal == 130)
+		if (check_heredoc_line(line, delimiter))
 		{
 			if (!line)
 				handle_heredoc_ctr_d(delimiter, env);

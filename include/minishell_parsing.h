@@ -119,5 +119,6 @@ int			cpy_and_expand_heredoc_arg(char *dest, char *src, int size,
 int			str_count_char(char *s, char c);
 void		cpy_refined_delimiter(char *delimiter, char *new_delimiter,
 				char quote);
+int			check_heredoc_line(char *line, char *delimiter);
 
 #endif

@@ -73,3 +73,12 @@ int	cpy_and_expand_heredoc_arg(char *dest, char *src, int size,
 	dest[size - 1] = '\0';
 	return (TRUE);
 }
+
+int	check_heredoc_line(char *line, char *delimiter)
+{
+	if (!line || (line && ft_strcmp(delimiter, line) == 0)
+		|| g_signal == 130)
+		return (TRUE);
+	else
+		return (FALSE);
+}
