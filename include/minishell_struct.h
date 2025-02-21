@@ -51,6 +51,7 @@ typedef enum e_error
 	PIPE_CREATION_ERROR,
 	WAITPID_ERROR,
 	HEREDOC_ERROR,
+	MINISHELL_CMD_ERROR,
 }	t_error;
 
 enum e_state

@@ -45,6 +45,8 @@ char	*get_error_exec_message_3(t_error error)
 {
 	if (error == READONLY_VARIABLE)
 		return ("cannot modify a read-only variable");
+	if (error == MINISHELL_CMD_ERROR)
+		return ("minishell command is not allowed");
 	return ("");
 }
 

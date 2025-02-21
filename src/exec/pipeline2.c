@@ -91,8 +91,9 @@ int	execute_piped_command(t_command *cmd, t_environment_var *env,
 	pid_t	pid;
 	int		next_pipe[2];
 
-	next_pipe[0] = -1;
-	next_pipe[1] = -1;
+	init_next_pipe(next_pipe);
+	if (is_running_programm(cmd->args[0], "minishell"))
+		return (print_error_exec_message(MINISHELL_CMD_ERROR, NULL), ERROR);
 	if (check_builtin_execution(cmd))
 		return (execute_builtin_parent(cmd, env));
 	if (info->current_index < info->total_commands - 1)

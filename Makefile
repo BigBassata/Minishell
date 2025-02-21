@@ -41,7 +41,7 @@ ERROR_SRCS = error_message.c error_message_2.c
 
 EXEC_SRCS = command_exec.c command_path.c command_utils.c environnement_utils.c \
             environnement.c pipeline.c pipeline2.c pipeline3.c redirection.c redirections_utils.c \
-			 redirections_utils2.c utils.c memory_management.c memory_management2.c
+			 redirections_utils2.c utils.c utils2.c memory_management.c memory_management2.c
             
 BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
                 ft_echo.c ft_env.c ft_exit.c ft_export.c \
