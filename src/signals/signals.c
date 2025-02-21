@@ -44,5 +44,5 @@ void	exec_mode_ctrl_c(int signal)
 void	setup_signals_exec_mode(void)
 {
 	signal(SIGINT, exec_mode_ctrl_c);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, exec_mode_ctrl_c);
 }
