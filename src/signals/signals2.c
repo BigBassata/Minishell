@@ -12,22 +12,22 @@
 
 #include "minishell.h"
 
-void	heredoc_mode_ctrl_c(int signal)
-{
-	(void)signal;
-	g_signal = SIGINT;
-	rl_done = 1;
-	ft_printf("test\n");
-}
+// void	heredoc_mode_ctrl_c(int signal)
+// {
+// 	(void)signal;
+// 	g_signal = SIGINT;
+// 	rl_done = 1;
+// 	ft_printf("test\n");
+// }
 
-int	heredoc_sigint_event(void)
-{
-	return (0);
-}
+// int	heredoc_sigint_event(void)
+// {
+// 	return (0);
+// }
 
-void	setup_signals_heredoc_mode(void)
-{
-	rl_event_hook = heredoc_sigint_event;
-	signal(SIGINT, heredoc_mode_ctrl_c);
-	signal(SIGQUIT, SIG_IGN);
-}
+// void	setup_signals_heredoc_mode(void)
+// {
+// 	rl_event_hook = heredoc_sigint_event;
+// 	signal(SIGINT, heredoc_mode_ctrl_c);
+// 	signal(SIGQUIT, SIG_IGN);
+// }

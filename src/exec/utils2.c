@@ -38,11 +38,3 @@ int	is_running_programm(char *cmd, char *prog_name)
 		return (FALSE);
 	return (TRUE);
 }
-
-int	check_if_no_command(char *cmd)
-{
-	if (!cmd)
-		return (TRUE);
-	else
-		return (FALSE);
-}
