@@ -35,7 +35,7 @@ PARSING_SRCS = expand_args_1.c expand_args_2.c expand_args_3.c expand_args_4.c e
                line_validation_utils.c parsing_1.c parsing_2.c parsing_3.c \
                parsing_utils.c tokenization_utils.c tokenization.c
 
-SIGNALS_SRCS = signals.c signals_utils.c
+SIGNALS_SRCS = signals.c signals2.c signals_utils.c
 
 ERROR_SRCS = error_message.c error_message_2.c
 

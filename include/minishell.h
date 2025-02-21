@@ -56,6 +56,9 @@ void		interactive_mode_ctrl_c(int signal);
 void		setup_signals_interactive_mode(t_environment_var *env);
 void		exec_mode_ctrl_c(int signal);
 void		setup_signals_exec_mode(void);
+void        heredoc_mode_ctrl_c(int signal);
+int         heredoc_sigint_event(void);
+void        setup_signals_heredoc_mode(void);
 
 // SIGNALS UTILS
 void		handle_heredoc_ctr_d(char *delimiter, t_environment_var *env);

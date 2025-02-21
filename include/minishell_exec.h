@@ -123,5 +123,6 @@ int					create_env_var_in_cd(t_environment_var **environment,
 int					nbr_of_args(char **array);
 void				init_next_pipe(int *next_pipe);
 int					is_running_programm(char *cmd, char *prog_name);
+int					check_if_no_command(char *cmd);
 
 #endif

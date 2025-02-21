@@ -22,6 +22,7 @@ t_command	*data_parsing(char *line, t_environment_var *env)
 	token_list = tokenize_line(line);
 	if (!token_list)
 		return (NULL);
+	// setup_signals_heredoc_mode();
 	cmd_list = parse_token_list(token_list, env);
 	if (!cmd_list)
 		return (NULL);

@@ -99,11 +99,10 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 	current = cmd;
 	while (current)
 	{
+		if (check_if_no_command(current->args[0]))
+			return (0);
 		if (execute_piped_command(current, environment, &info) == ERROR)
-		{
-			cleanup_pipeline(&info);
-			return (ERROR);
-		}
+			return (cleanup_pipeline(&info), ERROR);
 		info.current_index++;
 		current = current->next;
 	}
