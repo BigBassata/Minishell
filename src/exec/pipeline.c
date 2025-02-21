@@ -100,7 +100,7 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 	while (current)
 	{
 		if (check_if_no_command(current->args[0]))
-			return (0);
+			return (cleanup_pipeline(&info), 0);
 		if (execute_piped_command(current, environment, &info) == ERROR)
 			return (cleanup_pipeline(&info), ERROR);
 		info.current_index++;
