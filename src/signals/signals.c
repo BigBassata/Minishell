@@ -41,8 +41,15 @@ void	exec_mode_ctrl_c(int signal)
 	write(STDOUT_FILENO, "\n", 1);
 }
 
+void	exec_mode_sigquit(int signal)
+{
+	(void)signal;
+	g_signal = 129 + SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
 void	setup_signals_exec_mode(void)
 {
 	signal(SIGINT, exec_mode_ctrl_c);
-	signal(SIGQUIT, exec_mode_ctrl_c);
+	signal(SIGQUIT, exec_mode_sigquit);
 }
