@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:50 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/20 14:59:37 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/21 16:59:15 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ static int	handle_pipeline_parent(t_pipeline_info *info, pid_t pid,
 		close(info->prev_pipe[0]);
 		close(info->prev_pipe[1]);
 	}
+	if (g_signal == 130) {
+        close_pipe_fds(next_pipe);
+        return (ERROR);
+    }
 	info->prev_pipe[0] = next_pipe[0];
 	info->prev_pipe[1] = next_pipe[1];
 	return (TRUE);
@@ -90,6 +94,12 @@ int	execute_piped_command(t_command *cmd, t_environment_var *env,
 {
 	pid_t	pid;
 	int		next_pipe[2];
+
+
+	if (cmd->is_heredoc && g_signal == 130) {
+		// Ne pas imprimer de message d'erreur supplémentaire
+		return (ERROR);
+	}
 
 	init_next_pipe(next_pipe);
 	if (check_builtin_execution(cmd))
