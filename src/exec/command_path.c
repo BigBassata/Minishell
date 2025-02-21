@@ -17,6 +17,8 @@ static char	*build_command_path(const char *dir, const char *cmd)
 	char	*full_path;
 	char	*tmp;
 
+	if (!cmd)
+		return (NULL);
 	tmp = ft_strjoin(dir, DIR_SEPARATOR);
 	if (!tmp)
 		return (NULL);
