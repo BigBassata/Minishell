@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 14:52:24 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/25 00:13:25 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,30 +57,27 @@ t_environment_var	*create_environment_node(char *envp)
 	return (new_node);
 }
 
-t_environment_var	*init_environment(char **envp)
+t_environment_var *init_environment(char **envp)
 {
-	t_environment_var	*environment;
-	t_environment_var	*new_node;
-	t_environment_var	*last_node;
+    t_environment_var *environment;
+    int has_env;
 
-	environment = create_new_env_node("_?", "");
-	if (!environment)
-		return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
-			cleanup_all(environment, NULL, -1), NULL);
-	environment->ctr_d_in_heredoc = 0;
-	environment->last_exit_code = 0;
-	last_node = environment;
-	while (*envp)
-	{
-		new_node = create_environment_node(*envp);
-		if (!new_node)
-			return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
-				cleanup_all(environment, NULL, -1), NULL);
-		last_node->next = new_node;
-		last_node = new_node;
-		envp++;
-	}
-	return (environment);
+    environment = create_new_env_node("_?", "");
+    if (!environment)
+        return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
+            cleanup_all(environment, NULL, -1), NULL);
+            
+    environment->ctr_d_in_heredoc = 0;
+    environment->last_exit_code = 0;
+    
+    if (!process_envp(environment, envp, &has_env))
+        return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
+            cleanup_all(environment, NULL, -1), NULL);
+    
+    if (!has_env && !add_minimal_env(environment))
+        return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
+            cleanup_all(environment, NULL, -1), NULL);
+    return (environment);
 }
 
 t_environment_var	*initialize_shell(char **envp)

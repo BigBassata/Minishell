@@ -6,7 +6,7 @@
 #    By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:31:35 by licohen           #+#    #+#              #
-#    Updated: 2025/02/24 23:56:24 by liamcohen        ###   ########.fr        #
+#    Updated: 2025/02/25 00:07:34 by liamcohen        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
                 ft_echo.c ft_env.c ft_exit.c ft_export.c \
                 ft_pwd.c ft_unset.c
 
-INIT_SRCS = init.c
+INIT_SRCS = init.c init2.c
 
 MAIN_SRCS = main.c
 
