@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 17:39:36 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/24 23:55:40 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,57 @@ void	close_pipe_fds(int *pipe_fds)
 	}
 }
 
-int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
-{
-	int	saved_stdin;
-	int	saved_stdout;
-	int	exit_code;
+// int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
+// {
+// 	int	saved_stdin;
+// 	int	saved_stdout;
+// 	int	exit_code;
 
-	exit_code = cmd->exit_code;
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdin == -1 || saved_stdout == -1)
-		return (ERROR);
-	if (setup_redirections(cmd) == ERROR)
-	{
-		close(saved_stdin);
-		close(saved_stdout);
-		return (ERROR);
-	}
-	execute_builtin(cmd, &env);
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
-	return (exit_code);
+// 	exit_code = cmd->exit_code;
+// 	saved_stdin = dup(STDIN_FILENO);
+// 	saved_stdout = dup(STDOUT_FILENO);
+// 	if (saved_stdin == -1 || saved_stdout == -1)
+// 		return (ERROR);
+// 	if (setup_redirections(cmd) == ERROR)
+// 	{
+// 		close(saved_stdin);
+// 		close(saved_stdout);
+// 		return (ERROR);
+// 	}
+// 	execute_builtin(cmd, &env);
+// 	dup2(saved_stdin, STDIN_FILENO);
+// 	dup2(saved_stdout, STDOUT_FILENO);
+// 	close(saved_stdin);
+// 	close(saved_stdout);
+// 	return (exit_code);
+// }
+
+int execute_builtin_parent(t_command *cmd, t_environment_var *env)
+{
+    int stdin_backup = -1;
+    int stdout_backup = -1;
+    int exit_code;
+    
+    stdin_backup = dup(STDIN_FILENO);
+    stdout_backup = dup(STDOUT_FILENO);
+    
+    if (stdin_backup == -1 || stdout_backup == -1)
+        return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
+    
+    if (setup_redirections(cmd) == ERROR)
+        return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
+    
+    if (ft_strcmp(cmd->args[0], "exit") == 0)
+        close_saved_fds(stdin_backup, stdout_backup);
+    
+    execute_builtin(cmd, &env);
+    exit_code = cmd->exit_code;
+    
+    if (ft_strcmp(cmd->args[0], "exit") != 0 && 
+        restore_fds2(stdin_backup, stdout_backup) == ERROR)
+        exit_code = ERROR;
+    
+    return (exit_code);
 }
 
 int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)

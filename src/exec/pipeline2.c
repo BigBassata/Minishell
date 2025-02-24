@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:50 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/21 16:59:15 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/24 23:51:04 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,8 @@ int	execute_piped_command(t_command *cmd, t_environment_var *env,
 	pid_t	pid;
 	int		next_pipe[2];
 
-
-	if (cmd->is_heredoc && g_signal == 130) {
-		// Ne pas imprimer de message d'erreur supplémentaire
+	if (cmd->is_heredoc && g_signal == 130)
 		return (ERROR);
-	}
-
 	init_next_pipe(next_pipe);
 	if (check_builtin_execution(cmd))
 		return (execute_builtin_parent(cmd, env));

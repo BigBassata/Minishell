@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 18:37:38 by licohen          ###   ########.fr       */
+/*   Updated: 2025/02/24 23:55:49 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ int					check_builtin_execution(t_command *cmd);
 int					wait_for_pipeline(t_pipeline_info *info);
 void				close_pipe_fds(int *pipe_fds);
 void				cleanup_pipeline(t_pipeline_info *info);
+void 				close_saved_fds(int stdin_fd, int stdout_fd);
+int 				restore_fds2(int stdin_fd, int stdout_fd);
+
+
+
 
 //Signal handling
 void				setup_child_signals(void);
