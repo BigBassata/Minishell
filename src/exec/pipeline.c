@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/25 00:13:45 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 00:20:39 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,17 @@ int execute_builtin_parent(t_command *cmd, t_environment_var *env)
     
     stdin_backup = dup(STDIN_FILENO);
     stdout_backup = dup(STDOUT_FILENO);
-    
     if (stdin_backup == -1 || stdout_backup == -1)
         return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
-    
     if (setup_redirections(cmd) == ERROR)
         return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
-    
     if (ft_strcmp(cmd->args[0], "exit") == 0)
         close_saved_fds(stdin_backup, stdout_backup);
-    
     execute_builtin(cmd, &env);
     exit_code = cmd->exit_code;
-    
     if (ft_strcmp(cmd->args[0], "exit") != 0 && 
         restore_fds2(stdin_backup, stdout_backup) == ERROR)
         exit_code = ERROR;
-    
     return (exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 23:53:29 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/24 23:55:32 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 00:20:22 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int restore_fds2(int stdin_fd, int stdout_fd)
         status = ERROR;
     if (dup2(stdout_fd, STDOUT_FILENO) == -1)
         status = ERROR;
-    
     close_saved_fds(stdin_fd, stdout_fd);
     return (status);
 }

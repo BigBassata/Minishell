@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/25 00:13:25 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 00:20:01 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,11 @@ t_environment_var *init_environment(char **envp)
     if (!environment)
         return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
             cleanup_all(environment, NULL, -1), NULL);
-            
     environment->ctr_d_in_heredoc = 0;
     environment->last_exit_code = 0;
-    
     if (!process_envp(environment, envp, &has_env))
         return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
             cleanup_all(environment, NULL, -1), NULL);
-    
     if (!has_env && !add_minimal_env(environment))
         return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
             cleanup_all(environment, NULL, -1), NULL);

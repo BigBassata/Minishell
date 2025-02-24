@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 00:05:37 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/25 00:12:18 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 00:20:16 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ int add_minimal_env(t_environment_var *environment)
     last_node = environment;
     while (last_node->next)
         last_node = last_node->next;
-
     if (!add_default_env_var(&last_node, "PATH", "/usr/local/bin:/usr/bin:/bin"))
         return (FALSE);
-    
     if (!add_default_env_var(&last_node, "HOME", "/"))
         return (FALSE);
-    
     if (getcwd(cwd, sizeof(cwd)) && !add_default_env_var(&last_node, "PWD", cwd))
         return (FALSE);
-    
     return (TRUE);
 }
 
@@ -52,7 +48,6 @@ int process_envp(t_environment_var *env, char **envp, int *has_env)
 
     last_node = env;
     *has_env = (envp && *envp);
-    
     while (envp && *envp)
     {
         new_node = create_environment_node(*envp);
