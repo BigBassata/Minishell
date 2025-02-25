@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:50 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/24 23:51:04 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 15:59:56 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ static int	handle_pipeline_parent(t_pipeline_info *info, pid_t pid,
 		close(info->prev_pipe[0]);
 		close(info->prev_pipe[1]);
 	}
-	if (g_signal == 130) {
-        close_pipe_fds(next_pipe);
-        return (ERROR);
-    }
+	if (g_signal == 130)
+	{
+		close_pipe_fds(next_pipe);
+		return (ERROR);
+	}
 	info->prev_pipe[0] = next_pipe[0];
 	info->prev_pipe[1] = next_pipe[1];
 	return (TRUE);

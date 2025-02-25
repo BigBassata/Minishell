@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/25 00:10:46 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/02/25 15:53:32 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int					handle_external_parent(pid_t pid,
 t_environment_var	*initialize_shell(char **envp);
 t_environment_var	*init_environment(char **envp);
 t_environment_var	*create_environment_node(char *envp);
-int 				add_default_env_var(t_environment_var **last_node,
-					char *key, char *value);
-int 				add_minimal_env(t_environment_var *environment);
-int 				process_envp(t_environment_var *env, char **envp, int *has_env);
-
+int					add_default_env_var(t_environment_var **last_node,
+						char *key, char *value);
+int					add_minimal_env(t_environment_var *environment);
+int					process_envp(t_environment_var *env, char **envp,
+						int *has_env);
 char				*get_env_value(t_environment_var *environment,
 						const char *key);
 int					create_env_var(t_environment_var **environment,
@@ -89,8 +89,8 @@ int					check_builtin_execution(t_command *cmd);
 int					wait_for_pipeline(t_pipeline_info *info);
 void				close_pipe_fds(int *pipe_fds);
 void				cleanup_pipeline(t_pipeline_info *info);
-void 				close_saved_fds(int stdin_fd, int stdout_fd);
-int 				restore_fds2(int stdin_fd, int stdout_fd);
+void				close_saved_fds(int stdin_fd, int stdout_fd);
+int					restore_fds2(int stdin_fd, int stdout_fd);
 
 //Signal handling
 void				setup_child_signals(void);
