@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/25 15:53:32 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 00:35:58 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int					check_builtin_execution(t_command *cmd);
 int					wait_for_pipeline(t_pipeline_info *info);
 void				close_pipe_fds(int *pipe_fds);
 void				cleanup_pipeline(t_pipeline_info *info);
-void				close_saved_fds(int stdin_fd, int stdout_fd);
 int					restore_fds2(int stdin_fd, int stdout_fd);
 
 //Signal handling
@@ -107,7 +106,6 @@ int					check_input_permissions(t_command *cmd, int *prev_fds);
 int					setup_fd_backup(int *prev_in_fd, int *prev_out_fd);
 void				cleanup_fds(int prev_in_fd, int prev_out_fd);
 int					handle_dup2_error(int fd, char *path);
-int					handle_dup2_input_error(int fd, char *path);
 
 //Memory management
 void				cleanup_ptr(void *ptr);

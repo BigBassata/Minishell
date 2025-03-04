@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 14:59:16 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 00:04:31 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	execute_external(t_command *cmd, t_environment_var *environment)
 	char	*cmd_path;
 	char	**env_array;
 	pid_t	pid;
+	int     status;
 
 	if (initialize_execution(cmd, environment, &cmd_path, &env_array) == ERROR)
 		return (ERROR);
@@ -83,6 +84,8 @@ static int	execute_external(t_command *cmd, t_environment_var *environment)
 	}
 	free(cmd_path);
 	free_array(env_array);
+	status = handle_external_parent(pid, environment);
+	environment->last_exit_code = status;
 	return (handle_external_parent(pid, environment));
 }
 

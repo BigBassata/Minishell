@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:02 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/18 15:53:08 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 00:15:57 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	handle_regular_input(t_command *cmd)
 		return (ERROR);
 	}
 	if (dup2(input_fd, STDIN_FILENO) == -1)
-		return (handle_dup2_input_error(input_fd, cmd->input_path));
+		return (handle_dup2_error(input_fd, cmd->input_path));
 	close(input_fd);
 	return (TRUE);
 }

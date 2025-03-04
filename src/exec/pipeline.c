@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/25 15:58:38 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 00:34:18 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
 	stdin_backup = dup(STDIN_FILENO);
 	stdout_backup = dup(STDOUT_FILENO);
 	if (stdin_backup == -1 || stdout_backup == -1)
-		return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
+		return (cleanup_fds(stdin_backup, stdout_backup), ERROR);
 	if (setup_redirections(cmd) == ERROR)
-		return (close_saved_fds(stdin_backup, stdout_backup), ERROR);
+		return (cleanup_fds(stdin_backup, stdout_backup), ERROR);
 	if (ft_strcmp(cmd->args[0], "exit") == 0)
-		close_saved_fds(stdin_backup, stdout_backup);
+		cleanup_fds(stdin_backup, stdout_backup);
 	execute_builtin(cmd, &env);
 	exit_code = cmd->exit_code;
 	if (ft_strcmp(cmd->args[0], "exit") != 0
