@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:28:10 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:53:42 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 07:02:10 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,11 @@ int	build_heredoc_file_path(char *heredoc_file_path, char *input_path)
 		return (ERROR);
 	}
 	return (TRUE);
+}
+
+int	handle_dup2_error(int fd, char *path)
+{
+	close(fd);
+	print_error_exec_message(DUP2_ERROR, path);
+	return (ERROR);
 }

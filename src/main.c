@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:09:46 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 01:30:38 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 07:07:32 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,6 @@ t_command	*data_parsing(char *line, t_environment_var *env)
 	return (cmd_list);
 }
 
-// void	minishell_loop(t_environment_var *env)
-// {
-// 	char		*line;
-// 	t_command	*cmd_list;
-
-// 	while (1)
-// 	{
-// 		setup_signals_interactive_mode(env);
-// 		line = readline("minishell> ");
-// 		env->last_exit_code = g_signal;
-// 		env->ctr_d_in_heredoc = 0;
-// 		if (is_null_line(line))
-// 			break ;
-// 		if (is_void_case(line))
-// 			continue ;
-// 		if (*line)
-// 			add_history(line);
-// 		cmd_list = data_parsing(line, env);
-// 		if (!cmd_list)
-// 			continue ;
-// 		setup_signals_exec_mode();
-// 		env->last_exit_code = execute_pipeline(cmd_list, env);
-// 		printf("minishell_loop: env->last_exit_code = %d\n", env->last_exit_code);
-// 		free_cmd_list(cmd_list);
-// 	}
-// 	rl_clear_history();
-// 	cleanup_all(env, NULL, 0);
-// }
-
 void minishell_loop(t_environment_var *env)
 {
     char *line;
@@ -72,7 +43,6 @@ void minishell_loop(t_environment_var *env)
         line = readline("minishell> ");
         if (g_signal != 0)
             env->last_exit_code = g_signal;
-        printf("DEBUG: Before parsing, env->last_exit_code = %d\n", env->last_exit_code);
         env->ctr_d_in_heredoc = 0;
         if (is_null_line(line))
             break;
@@ -85,7 +55,6 @@ void minishell_loop(t_environment_var *env)
             continue;
         setup_signals_exec_mode();
         env->last_exit_code = execute_pipeline(cmd_list, env);
-        printf("minishell_loop: env->last_exit_code = %d\n", env->last_exit_code);
         free_cmd_list(cmd_list);
     }
     rl_clear_history();

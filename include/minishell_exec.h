@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 00:35:58 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 07:02:42 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,8 @@ int					ft_export(char *arg_1, t_environment_var *env, int fd_out);
 int					is_builtin(char *cmd);
 
 //Command execution
-int					execute_command(t_command *cmd,
-						t_environment_var *environment);
 void				execute_builtin(t_command *cmd,
 						t_environment_var **env);
-t_cmd_type			get_command_type(t_command *cmd,
-						t_environment_var *environment);
 enum e_state		check_command_type(const char *cmd);
 char				*find_command_path(const char *command,
 						t_environment_var *environment);
@@ -90,6 +86,10 @@ int					wait_for_pipeline(t_pipeline_info *info);
 void				close_pipe_fds(int *pipe_fds);
 void				cleanup_pipeline(t_pipeline_info *info);
 int					restore_fds2(int stdin_fd, int stdout_fd);
+int					check_wait_error(pid_t wait_result);
+
+int 				handle_wait_status(pid_t pid, int is_last, int *last_status);
+
 
 //Signal handling
 void				setup_child_signals(void);

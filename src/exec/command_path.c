@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   command_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:02 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/06 17:19:08 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 06:59:17 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
+
+enum e_state	check_command_type(const char *cmd)
+{
+	if (!cmd || !*cmd)
+		return (ERROR);
+	if (cmd[0] == '/' || cmd[0] == '.')
+		return (TRUE);
+	return (FALSE);
+}
 
 static char	*build_command_path(const char *dir, const char *cmd)
 {
@@ -27,7 +36,7 @@ static char	*build_command_path(const char *dir, const char *cmd)
 	return (full_path);
 }
 
-static char	**get_path_directories(t_environment_var *environment)
+static char	**get_path_dir(t_environment_var *environment)
 {
 	char	*path_value;
 
@@ -37,7 +46,7 @@ static char	**get_path_directories(t_environment_var *environment)
 	return (ft_split(path_value, PATH_SEPARATOR));
 }
 
-static char	*search_command_in_directories(const char *command,
+static char	*search_command_in_dir(const char *command,
 	char **path_dirs)
 {
 	char	*cmd_path;
@@ -63,10 +72,10 @@ char	*find_command_path(const char *command,
 
 	if (check_command_type(command) == TRUE)
 		return (ft_strdup(command));
-	path_dirs = get_path_directories(environment);
+	path_dirs = get_path_dir(environment);
 	if (!path_dirs)
 		return (NULL);
-	cmd_path = search_command_in_directories(command, path_dirs);
+	cmd_path = search_command_in_dir(command, path_dirs);
 	free_array(path_dirs);
 	return (cmd_path);
 }

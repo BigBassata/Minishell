@@ -1,18 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipeline1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 01:17:26 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 07:00:36 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* pipeline_execution.c */
-
 #include "minishell_exec.h"
+
+int	wait_for_pipeline(t_pipeline_info *info)
+{
+	int	last_status;
+	int	i;
+
+	if (!info || !info->process_ids || info->total_commands <= 0)
+		return (0);
+	last_status = 0;
+	i = 0;
+	while (i < info->total_commands)
+	{
+		if (info->process_ids[i] > 0)
+		{
+			if (handle_wait_status(info->process_ids[i],
+					i == info->total_commands - 1,
+					&last_status) == ERROR)
+				return (ERROR);
+		}
+		i++;
+	}
+	return (last_status);
+}
 
 void	cleanup_pipeline(t_pipeline_info *info)
 {
@@ -35,30 +56,6 @@ void	close_pipe_fds(int *pipe_fds)
 		close(pipe_fds[1]);
 		pipe_fds[1] = -1;
 	}
-}
-
-int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
-{
-	int	stdin_backup;
-	int	stdout_backup;
-	int	exit_code;
-
-	stdin_backup = -1;
-	stdout_backup = -1;
-	stdin_backup = dup(STDIN_FILENO);
-	stdout_backup = dup(STDOUT_FILENO);
-	if (stdin_backup == -1 || stdout_backup == -1)
-		return (cleanup_fds(stdin_backup, stdout_backup), ERROR);
-	if (setup_redirections(cmd) == ERROR)
-		return (cleanup_fds(stdin_backup, stdout_backup), ERROR);
-	if (ft_strcmp(cmd->args[0], "exit") == 0)
-		cleanup_fds(stdin_backup, stdout_backup);
-	execute_builtin(cmd, &env);
-	exit_code = cmd->exit_code;
-	if (ft_strcmp(cmd->args[0], "exit") != 0
-		&& restore_fds2(stdin_backup, stdout_backup) == ERROR)
-		exit_code = ERROR;
-	return (exit_code);
 }
 
 int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)
@@ -91,8 +88,8 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 
 	if (!cmd || !environment)
 		return (ERROR);
-	if (!cmd->next && check_builtin_execution(cmd))
-		return (execute_builtin_parent(cmd, environment));
+	// if (!cmd->next && check_builtin_execution(cmd))
+	// 	return (execute_builtin_parent(cmd, environment));
 	if (initialize_pipeline(&info, cmd) == ERROR)
 		return (ERROR);
 	current = cmd;
@@ -109,6 +106,5 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 	close_pipe_fds(info.prev_pipe);
 	exit_status = wait_for_pipeline(&info);
 	cleanup_pipeline(&info);
-	printf("execute_pipeline: returning status = %d\n", exit_status);
 	return (exit_status);
 }
