@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 16:38:48 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 17:47:57 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,6 @@ int	wait_for_pipeline(t_pipeline_info *info)
 	return (last_status);
 }
 
-void	cleanup_pipeline(t_pipeline_info *info)
-{
-	if (info && info->process_ids)
-	{
-		free(info->process_ids);
-		info->process_ids = NULL;
-	}
-}
-
-void	close_pipe_fds(int *pipe_fds)
-{
-	if (pipe_fds[0] != -1)
-	{
-		close(pipe_fds[0]);
-		pipe_fds[0] = -1;
-	}
-	if (pipe_fds[1] != -1)
-	{
-		close(pipe_fds[1]);
-		pipe_fds[1] = -1;
-	}
-}
-
 int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)
 {
 	int			cmd_count;
@@ -80,27 +57,82 @@ int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)
 	return (TRUE);
 }
 
+// int	execute_pipeline(t_command *cmd, t_environment_var *environment)
+// {
+// 	t_pipeline_info	info;
+// 	int				exit_status;
+// 	t_command		*current;
+
+// 	if (!cmd || !environment)
+// 		return (ERROR);
+// 	if (initialize_pipeline(&info, cmd) == ERROR)
+// 		return (ERROR);
+	// if (cmd->next == NULL && check_builtin_execution(cmd)) {
+	// 	exit_status = execute_builtin_parent(cmd, environment);
+	// 	environment->last_exit_code = exit_status;
+	// 	cleanup_pipeline(&info);
+	// 	return (exit_status);
+	// }
+// 	current = cmd;
+// 	while (current)
+// 	{
+// 		if (execute_piped_command(current, environment, &info) == ERROR)
+// 		{
+// 			cleanup_pipeline(&info);
+// 			return (ERROR);
+// 		}
+// 		info.current_index++;
+// 		current = current->next;
+// 	}
+// 	close_pipe_fds(info.prev_pipe);
+// 	exit_status = wait_for_pipeline(&info);
+// 	cleanup_pipeline(&info);
+// 	return (exit_status);
+// }
+
+static int	handle_builtin_pipeline(t_command *cmd, t_environment_var *env,
+	t_pipeline_info *info)
+{
+	int	exit_status;
+
+	exit_status = execute_builtin_parent(cmd, env);
+	env->last_exit_code = exit_status;
+	cleanup_pipeline(info);
+	return (exit_status);
+}
+
+static int	execute_commands_in_pipeline(t_command *cmd,
+	t_environment_var *env, t_pipeline_info *info)
+{
+	t_command	*current;
+
+	current = cmd;
+	while (current)
+	{
+		if (execute_piped_command(current, env, info) == ERROR)
+		{
+			cleanup_pipeline(info);
+			return (ERROR);
+		}
+		info->current_index++;
+		current = current->next;
+	}
+	return (TRUE);
+}
+
 int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 {
 	t_pipeline_info	info;
 	int				exit_status;
-	t_command		*current;
 
 	if (!cmd || !environment)
 		return (ERROR);
 	if (initialize_pipeline(&info, cmd) == ERROR)
 		return (ERROR);
-	current = cmd;
-	while (current)
-	{
-		if (execute_piped_command(current, environment, &info) == ERROR)
-		{
-			cleanup_pipeline(&info);
-			return (ERROR);
-		}
-		info.current_index++;
-		current = current->next;
-	}
+	if (cmd->next == NULL && check_builtin_execution(cmd))
+		return (handle_builtin_pipeline(cmd, environment, &info));
+	if (execute_commands_in_pipeline(cmd, environment, &info) == ERROR)
+		return (ERROR);
 	close_pipe_fds(info.prev_pipe);
 	exit_status = wait_for_pipeline(&info);
 	cleanup_pipeline(&info);
