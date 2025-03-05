@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:48:52 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 06:58:51 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 16:38:33 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	wait_for_child(pid_t pid)
 {
 	int	status;
-	int	exit_status = 0;
+	int	exit_status;
+
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		print_error_exec_message(WAITPID_ERROR, NULL);
@@ -30,24 +31,24 @@ int	wait_for_child(pid_t pid)
 	return (exit_status);
 }
 
-int handle_wait_status(pid_t pid, int is_last, int *last_status)
+int	handle_wait_status(pid_t pid, int is_last, int *last_status)
 {
-    int     status;
-    pid_t   wait_result;
+	int		status;
+	pid_t	wait_result;
 
-    wait_result = waitpid(pid, &status, 0);
-    if (check_wait_error(wait_result) == ERROR)
-        return (ERROR);
-    if (is_last && wait_result != -1)
-    {
-        if (WIFEXITED(status))
-            *last_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            *last_status = 128 + WTERMSIG(status);
-        else
-            *last_status = ERROR;
-    }
-    return (TRUE);
+	wait_result = waitpid(pid, &status, 0);
+	if (check_wait_error(wait_result) == ERROR)
+		return (ERROR);
+	if (is_last && wait_result != -1)
+	{
+		if (WIFEXITED(status))
+			*last_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			*last_status = 128 + WTERMSIG(status);
+		else
+			*last_status = ERROR;
+	}
+	return (TRUE);
 }
 
 int	check_builtin_execution(t_command *cmd)

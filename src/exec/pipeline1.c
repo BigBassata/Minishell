@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 07:00:36 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 16:38:48 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 
 	if (!cmd || !environment)
 		return (ERROR);
-	// if (!cmd->next && check_builtin_execution(cmd))
-	// 	return (execute_builtin_parent(cmd, environment));
 	if (initialize_pipeline(&info, cmd) == ERROR)
 		return (ERROR);
 	current = cmd;
