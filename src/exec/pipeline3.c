@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:08:47 by liamcohen         #+#    #+#             */
-/*   Updated: 2025/02/18 15:37:45 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 01:05:14 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
+
+void	init_next_pipe(int *next_pipe)
+{
+	next_pipe[0] = -1;
+	next_pipe[1] = -1;
+}
 
 int	check_builtin_execution(t_command *cmd)
 {
@@ -19,15 +25,6 @@ int	check_builtin_execution(t_command *cmd)
 			|| ft_strcmp(cmd->args[0], "exit") == 0
 			|| ft_strcmp(cmd->args[0], "export") == 0
 			|| ft_strcmp(cmd->args[0], "unset") == 0));
-}
-
-static int	get_exit_status(int status)
-{
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (ERROR);
 }
 
 static int	check_wait_error(pid_t wait_result)
@@ -43,17 +40,24 @@ static int	check_wait_error(pid_t wait_result)
 	return (TRUE);
 }
 
-static int	handle_wait_status(pid_t pid, int is_last, int *last_status)
+static int handle_wait_status(pid_t pid, int is_last, int *last_status)
 {
-	int		status;
-	pid_t	wait_result;
+    int     status;
+    pid_t   wait_result;
 
-	wait_result = waitpid(pid, &status, 0);
-	if (check_wait_error(wait_result) == ERROR)
-		return (ERROR);
-	if (is_last && wait_result != -1)
-		*last_status = get_exit_status(status);
-	return (TRUE);
+    wait_result = waitpid(pid, &status, 0);
+    if (check_wait_error(wait_result) == ERROR)
+        return (ERROR);
+    if (is_last && wait_result != -1)
+    {
+        if (WIFEXITED(status))
+            *last_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            *last_status = 128 + WTERMSIG(status);
+        else
+            *last_status = ERROR;
+    }
+    return (TRUE);
 }
 
 int	wait_for_pipeline(t_pipeline_info *info)
