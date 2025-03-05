@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:48:52 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 17:47:49 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 17:58:53 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
 		cleanup_fds(stdin_backup, stdout_backup);
 	execute_builtin(cmd, &env);
 	exit_code = cmd->exit_code;
-	// env->last_exit_code = exit_code; 
 	if (ft_strcmp(cmd->args[0], "exit") != 0
 		&& restore_fds2(stdin_backup, stdout_backup) == ERROR)
 		exit_code = ERROR;
