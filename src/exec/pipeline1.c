@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 17:47:57 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:14:30 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,39 +56,6 @@ int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)
 	info->prev_pipe[1] = -1;
 	return (TRUE);
 }
-
-// int	execute_pipeline(t_command *cmd, t_environment_var *environment)
-// {
-// 	t_pipeline_info	info;
-// 	int				exit_status;
-// 	t_command		*current;
-
-// 	if (!cmd || !environment)
-// 		return (ERROR);
-// 	if (initialize_pipeline(&info, cmd) == ERROR)
-// 		return (ERROR);
-	// if (cmd->next == NULL && check_builtin_execution(cmd)) {
-	// 	exit_status = execute_builtin_parent(cmd, environment);
-	// 	environment->last_exit_code = exit_status;
-	// 	cleanup_pipeline(&info);
-	// 	return (exit_status);
-	// }
-// 	current = cmd;
-// 	while (current)
-// 	{
-// 		if (execute_piped_command(current, environment, &info) == ERROR)
-// 		{
-// 			cleanup_pipeline(&info);
-// 			return (ERROR);
-// 		}
-// 		info.current_index++;
-// 		current = current->next;
-// 	}
-// 	close_pipe_fds(info.prev_pipe);
-// 	exit_status = wait_for_pipeline(&info);
-// 	cleanup_pipeline(&info);
-// 	return (exit_status);
-// }
 
 static int	handle_builtin_pipeline(t_command *cmd, t_environment_var *env,
 	t_pipeline_info *info)
