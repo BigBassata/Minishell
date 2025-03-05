@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 00:34:18 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 01:17:26 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int	execute_pipeline(t_command *cmd, t_environment_var *environment)
 	close_pipe_fds(info.prev_pipe);
 	exit_status = wait_for_pipeline(&info);
 	cleanup_pipeline(&info);
+	printf("execute_pipeline: returning status = %d\n", exit_status);
 	return (exit_status);
 }

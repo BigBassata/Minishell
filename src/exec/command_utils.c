@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:48:52 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/13 15:53:15 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 01:21:44 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_cmd_type	get_command_type(t_command *cmd, t_environment_var *environment)
 int	wait_for_child(pid_t pid)
 {
 	int	status;
-	int	exit_status;
-
+	int	exit_status = 0;
+	printf("wait_for_child: exit_status = %d\n", exit_status);
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		print_error_exec_message(WAITPID_ERROR, NULL);

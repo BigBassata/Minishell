@@ -30,6 +30,7 @@ int	last_status_len(int exit_code)
 void	expand_last_status(char *dest, int *index, int exit_code,
 	char *base_10)
 {
+	printf("DEBUG: expand_last_status called with exit_code = %d\n", exit_code);
 	if (exit_code >= 0)
 	{
 		if (exit_code > 9)
@@ -45,7 +46,7 @@ void	cpy_expanded_var(char *dest, int *index, char *env_var,
 	char				*env_var_name;
 	int					k;
 	int					env_var_len;
-
+    printf("DEBUG: cpy_expanded_var with env->last_exit_code = %d\n", env->last_exit_code);
 	curr_env = env;
 	env_var_name = &env_var[1];
 	env_var_len = ft_strlen(env_var_name);

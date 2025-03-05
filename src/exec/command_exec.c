@@ -6,7 +6,7 @@
 /*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 00:04:31 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/05 01:12:59 by liamcohen        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,33 +60,33 @@ static int	initialize_execution(t_command *cmd, t_environment_var *environment,
 	return (TRUE);
 }
 
-static int	execute_external(t_command *cmd, t_environment_var *environment)
+static int  execute_external(t_command *cmd, t_environment_var *environment)
 {
-	char	*cmd_path;
-	char	**env_array;
-	pid_t	pid;
-	int     status;
+    char    *cmd_path;
+    char    **env_array;
+    pid_t   pid;
+    int     status;
 
-	if (initialize_execution(cmd, environment, &cmd_path, &env_array) == ERROR)
-		return (ERROR);
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		free(cmd_path);
-		free_array(env_array);
-		return (ERROR);
-	}
-	if (pid == 0)
-	{
-		setup_child_signals();
-		execute_child_process(cmd_path, cmd, env_array);
-	}
-	free(cmd_path);
-	free_array(env_array);
-	status = handle_external_parent(pid, environment);
-	environment->last_exit_code = status;
-	return (handle_external_parent(pid, environment));
+    if (initialize_execution(cmd, environment, &cmd_path, &env_array) == ERROR)
+        return (ERROR);
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        free(cmd_path);
+        free_array(env_array);
+        return (ERROR);
+    }
+    if (pid == 0)
+    {
+        setup_child_signals();
+        execute_child_process(cmd_path, cmd, env_array);
+    }
+    free(cmd_path);
+    free_array(env_array);
+    status = handle_external_parent(pid, environment);
+    environment->last_exit_code = status;
+    return (status);
 }
 
 int	execute_command(t_command *cmd, t_environment_var *environment)
