@@ -102,7 +102,7 @@ int	ft_exit(t_command *cmd, int fd_out)
 		return (handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]));
 	if (len > 2)
 		return (handle_exit_error(TOO_MANY_ARGUMENTS, "exit"));
-	code = strtol(array[1], &endptr, 10);
+	code = ft_strtol_base_10(array[1], &endptr);
 	if (*endptr != '\0')
 		return (handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]));
 	ft_putendl_fd("exit", fd_out);

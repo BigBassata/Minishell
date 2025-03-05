@@ -85,6 +85,9 @@ SRCS += src/ft_functions_printf.c
 SRCS += src/get_next_line.c
 SRCS += src/get_next_line_utils.c
 
+SRCS += src/ft_strtol_base_10.c
+SRCS += src/ft_strtol_base_10_utils.c
+
 #### RULES #####################################################################
 
 all: $(NAME)

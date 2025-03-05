@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <limits.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
 
@@ -43,6 +44,9 @@ int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
 long				ft_atol(const char *nptr);
+long				ft_strtol_base_10(const char *nptr, char **endptr);
+const char			*ft_accumulate_number(const char *s, int negative,
+						unsigned long *acc, int *overflow);
 
 void				ft_putchar(char c);
 void				ft_free_and_null(char **tab);
