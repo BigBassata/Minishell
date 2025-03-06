@@ -39,7 +39,7 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 		curr_env = curr_env->next;
 	while (curr_env)
 	{
-		ft_putstr_fd("declare -x ", fd_out);
+		ft_putstr_fd("export -x ", fd_out);
 		ft_putstr_fd(curr_env->key, fd_out);
 		ft_putstr_fd("=\"", fd_out);
 		ft_putstr_fd(curr_env->value, fd_out);
@@ -94,7 +94,7 @@ int	ft_export(char *arg_1, t_environment_var *env, int fd_out)
 	if (is_valid_exported_env(arg_1) == ERROR)
 		return (print_error_exec_message(NOT_A_VALID_IDENTIFIER, arg_1), 1);
 	if (!ft_strchr(arg_1, '='))
-		return (print_error_message("error export env need separator '='"), 1);
+		return (0);
 	if (handle_split_env_var(&name, &value, arg_1) == ERROR)
 		return (1);
 	curr_env = env;

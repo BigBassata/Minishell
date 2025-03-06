@@ -40,6 +40,8 @@ int					ft_env(t_environment_var *env, int fd_out);
 int					ft_cd(char **args, t_environment_var *env);
 int					ft_unset(t_environment_var **env, char **args);
 int					ft_export(char *arg_1, t_environment_var *env, int fd_out);
+int					ft_export_loop(char	**args, t_environment_var *env,
+						int fd_out);
 int					is_builtin(char *cmd);
 
 //Command execution

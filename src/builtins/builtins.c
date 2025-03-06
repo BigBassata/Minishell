@@ -35,7 +35,7 @@ void	execute_builtin(t_command *cmd, t_environment_var **env)
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		cmd->exit_code = ft_pwd(cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		cmd->exit_code = ft_export(cmd->args[1], *env, cmd->output_fd);
+		cmd->exit_code = ft_export_loop(cmd->args, *env, cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		cmd->exit_code = ft_unset(env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)

@@ -44,7 +44,7 @@ EXEC_SRCS = command_exec1.c command_exec2.c command_path.c environnement2.c \
 			 redirections3.c utils.c memory_management1.c memory_management2.c
             
 BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
-                ft_echo.c ft_env.c ft_exit.c ft_export.c \
+                ft_echo.c ft_env.c ft_exit.c ft_export.c ft_export_2.c \
                 ft_pwd.c ft_unset.c
 
 INIT_SRCS = init.c init2.c
