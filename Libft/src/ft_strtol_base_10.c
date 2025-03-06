@@ -26,11 +26,11 @@ static int	parse_sign(const char **s_ptr)
 	negative = 0;
 	if (**s_ptr == '-')
 	{
-		negative = 1 ;
-		*s_ptr = *s_ptr + 1 ;
+		negative = 1;
+		*s_ptr = *s_ptr + 1;
 	}
 	else if (**s_ptr == '+')
-		*s_ptr = *s_ptr + 1 ;
+		*s_ptr = *s_ptr + 1;
 	return (negative);
 }
 

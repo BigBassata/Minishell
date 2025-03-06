@@ -58,18 +58,18 @@ const char	*ft_accumulate_number(const char *s, int negative,
 	compute_limits(negative, &cutoff, &cutlim);
 	while (*s != '\0' && *s >= '0' && *s <= '9')
 	{
-		digit = *s - '0' ;
+		digit = *s - '0';
 		if (*overflow == 0)
 		{
 			if (will_overflow(*acc, digit, cutoff, cutlim))
 			{
-				*overflow = 1 ;
+				*overflow = 1;
 				*acc = handle_overflow(negative);
 			}
 			else
 				*acc = *acc * 10 + digit;
 		}
-		s++ ;
+		s++;
 	}
 	return (s);
 }
