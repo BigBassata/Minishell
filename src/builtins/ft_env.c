@@ -25,8 +25,11 @@ int	ft_env(t_environment_var *env, int fd_out)
 		if (env->value && *env->value)
 		{
 			ft_putstr_fd(env->key, fd_out);
-			ft_putchar_fd('=', fd_out);
-			ft_putendl_fd(env->value, fd_out);
+			if (env->value)
+			{
+				ft_putchar_fd('=', fd_out);
+				ft_putendl_fd(env->value, fd_out);
+			}
 		}
 		env = env->next;
 	}
