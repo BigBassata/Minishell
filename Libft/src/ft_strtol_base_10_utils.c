@@ -48,7 +48,7 @@ static unsigned long	handle_overflow(int negative)
 const char	*ft_accumulate_number(const char *s, int negative,
 	unsigned long *acc, int *overflow)
 {
-	unsigned long	cutoff; 
+	unsigned long	cutoff;
 	int				cutlim;
 	int				digit;
 
@@ -64,7 +64,7 @@ const char	*ft_accumulate_number(const char *s, int negative,
 			if (will_overflow(*acc, digit, cutoff, cutlim))
 			{
 				*overflow = 1 ;
-				*acc = handle_overflow(negative) ;
+				*acc = handle_overflow(negative);
 			}
 			else
 				*acc = *acc * 10 + digit;

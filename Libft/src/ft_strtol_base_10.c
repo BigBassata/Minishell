@@ -64,8 +64,8 @@ long	ft_strtol_base_10(const char *nptr, char **endptr)
 	neg = 0;
 	result = 0;
 	overflow = 0;
-	s = skip_whitespace(s) ;
-	neg = parse_sign(&s) ;
+	s = skip_whitespace(s);
+	neg = parse_sign(&s);
 	s = process_conversion(s, neg, &result, &overflow);
 	if (endptr)
 		*endptr = (char *)s;
