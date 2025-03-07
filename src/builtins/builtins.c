@@ -39,7 +39,7 @@ void	execute_builtin(t_command *cmd, t_environment_var **env)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		cmd->exit_code = ft_unset(env, cmd->args);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		cmd->exit_code = ft_env(*env, cmd->output_fd);
+		cmd->exit_code = ft_env(cmd->args, *env, cmd->output_fd);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		cmd->exit_code = ft_exit(cmd, cmd->output_fd);
 	(*env)->last_exit_code = cmd->exit_code;

@@ -36,7 +36,7 @@
 int					ft_echo(char **array, int fd_out);
 int					ft_exit(t_command *cmd, int fd_out);
 int					ft_pwd(int fd_out);
-int					ft_env(t_environment_var *env, int fd_out);
+int					ft_env(char **args, t_environment_var *env, int fd_out);
 int					ft_cd(char **args, t_environment_var *env);
 int					ft_unset(t_environment_var **env, char **args);
 int					ft_export(char *arg_1, t_environment_var *env, int fd_out);

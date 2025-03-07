@@ -50,6 +50,7 @@ void		print_error_message(char *word);
 char		*get_error_exec_message_2(t_error error);
 char		*get_error_exec_message_3(t_error error);
 void		handle_cd_errors(char *word);
+void        handle_env_error(char *word);
 
 // SIGNALS
 void		interactive_mode_ctrl_c(int signal);

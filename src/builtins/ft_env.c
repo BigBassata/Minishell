@@ -12,24 +12,24 @@
 
 #include "minishell_exec.h"
 
-int	ft_env(t_environment_var *env, int fd_out)
+int	ft_env(char **args, t_environment_var *env, int fd_out)
 {
 	if (fd_out < 0)
 		fd_out = STDOUT_FILENO;
 	if (!env)
 		return (0);
+	if (args[0] && args[1])
+		return (handle_env_error(args[1]), 127);
 	if (env && ft_strcmp(env->key, "_?") == 0)
 		env = env->next;
 	while (env)
 	{
-		if (env->value && *env->value)
+		if (env->value)
 		{
 			ft_putstr_fd(env->key, fd_out);
-			if (env->value)
-			{
-				ft_putchar_fd('=', fd_out);
+			ft_putchar_fd('=', fd_out);
+			if (ft_strcmp(env->value, "\"\"") != 0)
 				ft_putendl_fd(env->value, fd_out);
-			}
 		}
 		env = env->next;
 	}

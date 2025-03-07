@@ -67,3 +67,12 @@ void	handle_cd_errors(char *word)
 	else
 		print_error_message("cd: error chdir");
 }
+
+void	handle_env_error(char *word)
+{
+	char	message[PATH_MAX];
+
+	ft_strlcpy(message, "env: ", PATH_MAX);
+	ft_strlcat(message, word, PATH_MAX);
+	print_error_exec_message(NO_SUCH_FILE_OR_DIRECTORY, message);
+}
