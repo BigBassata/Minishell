@@ -62,7 +62,7 @@ t_environment_var	*init_environment(char **envp)
 	t_environment_var	*environment;
 	int					has_env;
 
-	environment = create_new_env_node("_?", "");
+	environment = create_new_env_node("_?", "0");
 	if (!environment)
 		return (print_error_exec_message(ENVIRONMENT_INIT_FAILED, NULL),
 			cleanup_all(environment, NULL, -1), NULL);

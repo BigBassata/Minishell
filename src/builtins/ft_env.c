@@ -24,12 +24,11 @@ int	ft_env(char **args, t_environment_var *env, int fd_out)
 		env = env->next;
 	while (env)
 	{
-		if (env->value && env->value[0])
+		if (env->value)
 		{
 			ft_putstr_fd(env->key, fd_out);
 			ft_putchar_fd('=', fd_out);
-			if (ft_strcmp(env->value, "\"\"") != 0)
-				ft_putstr_fd(env->value, fd_out);
+			ft_putstr_fd(env->value, fd_out);
 			ft_putendl_fd("", fd_out);
 		}
 		env = env->next;

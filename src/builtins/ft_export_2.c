@@ -58,17 +58,17 @@ int	handle_var_without_equal_sign(char *arg_1, t_environment_var *env)
 			return (0);
 		curr_env = curr_env->next;
 	}
-	if (create_env_var(&env, arg_1, "\0") == ERROR)
+	if (create_env_var(&env, arg_1, NULL) == ERROR)
 		return (print_error_message("error create env var"), 1);
 	return (0);
 }
 
 int	handle_void_env_var_value(char **name, char **value)
 {
-	*value = (char *)malloc(3 * sizeof(char));
+	*value = (char *)malloc(1 * sizeof(char));
 	if (!*value)
 		return (free(*name), print_error_message("error malloc export"),
 			ERROR);
-	ft_strlcpy(*value, "\"\"", 3);
+	ft_strlcpy(*value, "\0", 1);
 	return (TRUE);
 }

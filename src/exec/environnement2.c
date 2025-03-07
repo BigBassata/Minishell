@@ -42,15 +42,15 @@ t_environment_var	*create_new_env_node(const char *name, const char *value)
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(name);
-	new_node->value = ft_strdup(value);
+	if (!new_node->key)
+		return (free(new_node), NULL);
+	if (value)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
+	if (value && !new_node->value)
+		return (free(new_node->key), free(new_node), NULL);
 	new_node->next = NULL;
-	if (!new_node->key || !new_node->value)
-	{
-		free(new_node->key);
-		free(new_node->value);
-		free(new_node);
-		return (NULL);
-	}
 	return (new_node);
 }
 

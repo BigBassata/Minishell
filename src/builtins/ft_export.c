@@ -41,14 +41,12 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 	{
 		ft_putstr_fd("export -x ", fd_out);
 		ft_putstr_fd(curr_env->key, fd_out);
-		if (curr_env->value && curr_env->value[0])
+		if (curr_env->value)
 		{
 			ft_putstr_fd("=", fd_out);
-			if (curr_env->value[0] != '"')
-				ft_putstr_fd("\"", fd_out);
+			ft_putstr_fd("\"", fd_out);
 			ft_putstr_fd(curr_env->value, fd_out);
-			if (curr_env->value[1] != '"')
-				ft_putstr_fd("\"", fd_out);		
+			ft_putstr_fd("\"", fd_out);		
 		}
 		ft_putendl_fd("", fd_out);
 		curr_env = curr_env->next;
@@ -86,7 +84,8 @@ static int	handle_split_env_var(char **name, char **value, char *new_var)
 
 static void	replace_env_var_value(t_environment_var *env, char *value)
 {
-	free(env->value);
+	if (env->value)
+		free(env->value);
 	env->value = value;
 }
 
