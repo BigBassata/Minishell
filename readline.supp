@@ -1,4 +1,11 @@
 {
+    ignore_libreadline
+    Memcheck:Leak
+    ...
+    obj:/libreadline.so.
+}
+
+{
 	readlines_still_reachable
 	Memcheck:Leak
 	match-leak-kinds: reachable
@@ -12,4 +19,11 @@
 	match-leak-kinds: reachable
 	...
 	fun:add_history
+}
+
+{
+    usrbin
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
 }
