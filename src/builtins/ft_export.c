@@ -41,9 +41,16 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 	{
 		ft_putstr_fd("export -x ", fd_out);
 		ft_putstr_fd(curr_env->key, fd_out);
-		ft_putstr_fd("=\"", fd_out);
-		ft_putstr_fd(curr_env->value, fd_out);
-		ft_putendl_fd("\"", fd_out);
+		if (curr_env->value && curr_env->value[0])
+		{
+			ft_putstr_fd("=", fd_out);
+			if (curr_env->value[0] != '"')
+				ft_putstr_fd("\"", fd_out);
+			ft_putstr_fd(curr_env->value, fd_out);
+			if (curr_env->value[1] != '"')
+				ft_putstr_fd("\"", fd_out);		
+		}
+		ft_putendl_fd("", fd_out);
 		curr_env = curr_env->next;
 	}
 }
@@ -67,6 +74,8 @@ static int	handle_split_env_var(char **name, char **value, char *new_var)
 	value_len = 0;
 	while (new_var[name_len + value_len] != '\0')
 		value_len++;
+	if (value_len == 0)
+		return (handle_void_env_var_value(name, value));
 	*value = (char *)malloc((value_len + 1) * sizeof(char));
 	if (!*value)
 		return (free(*name), print_error_message("error malloc export"),
@@ -94,7 +103,7 @@ int	ft_export(char *arg_1, t_environment_var *env, int fd_out)
 	if (is_valid_exported_env(arg_1) == ERROR)
 		return (print_error_exec_message(NOT_A_VALID_IDENTIFIER, arg_1), 1);
 	if (!ft_strchr(arg_1, '='))
-		return (0);
+		return (handle_var_without_equal_sign(arg_1, env));
 	if (handle_split_env_var(&name, &value, arg_1) == ERROR)
 		return (1);
 	curr_env = env;

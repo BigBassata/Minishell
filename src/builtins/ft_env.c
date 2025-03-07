@@ -24,7 +24,7 @@ int	ft_env(char **args, t_environment_var *env, int fd_out)
 		env = env->next;
 	while (env)
 	{
-		if (env->value)
+		if (env->value && env->value[0])
 		{
 			ft_putstr_fd(env->key, fd_out);
 			ft_putchar_fd('=', fd_out);

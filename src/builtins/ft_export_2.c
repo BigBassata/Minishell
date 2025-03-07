@@ -34,7 +34,7 @@ int	ft_export_loop(char	**args, t_environment_var *env, int fd_out)
 		return (ft_export(args[1], env, fd_out));
 	else
 	{
-		i = 0;
+		i = 1;
 		while (i < args_nb)
 		{
 			if (i == args_nb - 1)
@@ -45,4 +45,30 @@ int	ft_export_loop(char	**args, t_environment_var *env, int fd_out)
 		}
 		return (0);
 	}
+}
+
+int	handle_var_without_equal_sign(char *arg_1, t_environment_var *env)
+{
+	t_environment_var	*curr_env;
+	
+	curr_env = env;
+	while (curr_env)
+	{
+		if (ft_strcmp(arg_1, curr_env->key) == 0)
+			return (0);
+		curr_env = curr_env->next;
+	}
+	if (create_env_var(&env, arg_1, "\0") == ERROR)
+		return (print_error_message("error create env var"), 1);
+	return (0);
+}
+
+int	handle_void_env_var_value(char **name, char **value)
+{
+	*value = (char *)malloc(3 * sizeof(char));
+	if (!*value)
+		return (free(*name), print_error_message("error malloc export"),
+			ERROR);
+	ft_strlcpy(*value, "\"\"", 3);
+	return (TRUE);
 }
