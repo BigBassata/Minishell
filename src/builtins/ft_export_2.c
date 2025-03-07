@@ -50,7 +50,7 @@ int	ft_export_loop(char	**args, t_environment_var *env, int fd_out)
 int	handle_var_without_equal_sign(char *arg_1, t_environment_var *env)
 {
 	t_environment_var	*curr_env;
-	
+
 	curr_env = env;
 	while (curr_env)
 	{

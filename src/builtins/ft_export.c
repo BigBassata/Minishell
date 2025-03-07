@@ -46,7 +46,7 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 			ft_putstr_fd("=", fd_out);
 			ft_putstr_fd("\"", fd_out);
 			ft_putstr_fd(curr_env->value, fd_out);
-			ft_putstr_fd("\"", fd_out);		
+			ft_putstr_fd("\"", fd_out);
 		}
 		ft_putendl_fd("", fd_out);
 		curr_env = curr_env->next;
