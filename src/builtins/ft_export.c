@@ -39,7 +39,7 @@ static void	ft_export_without_args(t_environment_var *env, int fd_out)
 		curr_env = curr_env->next;
 	while (curr_env)
 	{
-		ft_putstr_fd("export -x ", fd_out);
+		ft_putstr_fd("export ", fd_out);
 		ft_putstr_fd(curr_env->key, fd_out);
 		if (curr_env->value)
 		{
