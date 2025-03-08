@@ -30,16 +30,21 @@ int	ft_export_loop(char	**args, t_environment_var *env, int fd_out)
 	int	i;
 
 	args_nb = args_counter(args);
-	if (args_nb < 2)
+	if (args_nb == 2 && is_readonly_var(args[1]))
+			return (0);
+	else if (args_nb < 2)
 		return (ft_export(args[1], env, fd_out));
 	else
 	{
 		i = 1;
 		while (i < args_nb)
 		{
+			if (i == args_nb - 1 && is_readonly_var(args[i]))
+				return (0);
 			if (i == args_nb - 1)
 				return (ft_export(args[i], env, fd_out));
-			if (ft_export(args[i], env, fd_out) != 0)
+			if (!is_readonly_var(args[i])
+				&& ft_export(args[i], env, fd_out) != 0)
 				return (1);
 			i++;
 		}

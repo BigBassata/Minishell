@@ -65,7 +65,7 @@ static int	handle_split_env_var(char **name, char **value, char *new_var)
 	if (!*name)
 		return (print_error_message("error malloc in export"), ERROR);
 	ft_strlcpy(*name, new_var, name_len + 1);
-	if (ft_strcmp(*name, "PWD") == 0 || ft_strcmp(*name, "OLDPWD") == 0)
+	if (is_readonly_var(*name))
 		return (free(*name), print_error_exec_message(READONLY_VARIABLE,
 				new_var), ERROR);
 	name_len++;

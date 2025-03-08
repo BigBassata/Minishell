@@ -30,8 +30,7 @@ int	is_valid_env_name(const char *name)
 
 int	is_readonly_var(const char *name)
 {
-	return (ft_strcmp(name, "PWD") == 0 || ft_strcmp(name, "OLDPWD") == 0
-		|| ft_strcmp(name, "_?") == 0);
+	return (ft_strcmp(name, "_?") == 0);
 }
 
 t_environment_var	*create_new_env_node(const char *name, const char *value)
