@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 16:50:38 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:52:02 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int					handle_var_without_equal_sign(char *arg_1,
 int					handle_void_env_var_value(char **name, char **value);
 
 //Command execution
-void				execute_builtin(t_command *cmd,
+int				execute_builtin(t_command *cmd,
 						t_environment_var **env);
 enum e_state		check_command_type(const char *cmd);
 char				*find_command_path(const char *command,

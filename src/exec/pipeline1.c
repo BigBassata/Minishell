@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:02:22 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 18:14:30 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:50:41 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ int	initialize_pipeline(t_pipeline_info *info, t_command *cmd)
 		cmd_count++;
 		current = current->next;
 	}
-	info->process_ids = malloc(sizeof(pid_t) * cmd_count);
-	if (!info->process_ids)
-		return (ERROR);
+	if (cmd_count == 0)
+        info->process_ids = NULL;
+	else 
+	{
+        info->process_ids = malloc(sizeof(pid_t) * cmd_count);
+        if (!info->process_ids)
+            return (ERROR);
+    }
 	info->total_commands = cmd_count;
 	info->current_index = 0;
 	info->prev_pipe[0] = -1;
@@ -87,21 +92,31 @@ static int	execute_commands_in_pipeline(t_command *cmd,
 	return (TRUE);
 }
 
-int	execute_pipeline(t_command *cmd, t_environment_var *environment)
+int execute_pipeline(t_command *cmd, t_environment_var *environment)
 {
-	t_pipeline_info	info;
-	int				exit_status;
+    t_pipeline_info info;
+    int exit_status;
 
-	if (!cmd || !environment)
-		return (ERROR);
-	if (initialize_pipeline(&info, cmd) == ERROR)
-		return (ERROR);
-	if (cmd->next == NULL && check_builtin_execution(cmd))
-		return (handle_builtin_pipeline(cmd, environment, &info));
-	if (execute_commands_in_pipeline(cmd, environment, &info) == ERROR)
-		return (ERROR);
-	close_pipe_fds(info.prev_pipe);
-	exit_status = wait_for_pipeline(&info);
-	cleanup_pipeline(&info);
-	return (exit_status);
+    if (!cmd || !environment)
+        return (ERROR);
+    if (cmd && cmd->next == NULL && cmd->args && cmd->args[0] &&
+        ft_strcmp(cmd->args[0], "exit") == 0)
+    {
+        info.process_ids = NULL;
+        info.total_commands = 0;
+        info.current_index = 0;
+        info.prev_pipe[0] = -1;
+        info.prev_pipe[1] = -1;
+        return (handle_builtin_pipeline(cmd, environment, &info));
+    }
+    if (initialize_pipeline(&info, cmd) == ERROR)
+        return (ERROR);
+    if (cmd->next == NULL && check_builtin_execution(cmd))
+        return (handle_builtin_pipeline(cmd, environment, &info));
+    if (execute_commands_in_pipeline(cmd, environment, &info) == ERROR)
+        return (ERROR);
+    close_pipe_fds(info.prev_pipe);
+    exit_status = wait_for_pipeline(&info);
+    cleanup_pipeline(&info);
+    return (exit_status);
 }
