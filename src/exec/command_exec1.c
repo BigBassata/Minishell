@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 18:50:08 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:02:35 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ static int	prepare_command_execution(t_command *cmd, t_environment_var *env)
 	char	*cmd_path;
 	char	**env_array;
 
+
+	if (!cmd->args || !cmd->args[0] || !*cmd->args[0])
+        exit(0);
 	if (is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, &env);
