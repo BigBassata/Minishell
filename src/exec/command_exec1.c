@@ -6,23 +6,11 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 19:02:35 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:11:20 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
-
-static int	fork_process(pid_t *pid, int next_pipe[2])
-{
-	*pid = fork();
-	if (*pid == -1)
-	{
-		print_error_exec_message(FORK_ERROR, NULL);
-		close_pipe_fds(next_pipe);
-		return (ERROR);
-	}
-	return (TRUE);
-}
 
 static int	handle_pipeline_parent(t_pipeline_info *info, pid_t pid,
 	int next_pipe[2])
@@ -61,19 +49,23 @@ static int	setup_child_process(t_command *cmd, t_pipeline_info *info,
 	return (setup_redirections(cmd));
 }
 
-static int	prepare_command_execution(t_command *cmd, t_environment_var *env)
+static	int	handle_builtin_commands(t_command *cmd, t_environment_var *env)
 {
-	char	*cmd_path;
-	char	**env_array;
-
-
 	if (!cmd->args || !cmd->args[0] || !*cmd->args[0])
-        exit(0);
+		exit(0);
 	if (is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, &env);
 		exit(cmd->exit_code);
 	}
+	return (0);
+}
+
+static	int	execute_external_command(t_command *cmd, t_environment_var *env)
+{
+	char	*cmd_path;
+	char	**env_array;
+
 	cmd_path = find_command_path(cmd->args[0], env);
 	if (!cmd_path)
 	{

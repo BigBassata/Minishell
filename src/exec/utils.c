@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+        */
+/*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:45:20 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/05 07:02:26 by liamcohen        ###   ########.fr       */
+/*   Updated: 2025/03/09 22:10:00 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ int	restore_fds2(int stdin_fd, int stdout_fd)
 	if (stdout_fd != -1)
 		close(stdout_fd);
 	return (status);
+}
+
+int	fork_process(pid_t *pid, int next_pipe[2])
+{
+	*pid = fork();
+	if (*pid == -1)
+	{
+		print_error_exec_message(FORK_ERROR, NULL);
+		close_pipe_fds(next_pipe);
+		return (ERROR);
+	}
+	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:14:54 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/20 14:47:57 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:07:20 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_export_loop(char	**args, t_environment_var *env, int fd_out)
 
 	args_nb = args_counter(args);
 	if (args_nb == 2 && is_readonly_var(args[1]))
-			return (0);
+		return (0);
 	else if (args_nb < 2)
 		return (ft_export(args[1], env, fd_out));
 	else

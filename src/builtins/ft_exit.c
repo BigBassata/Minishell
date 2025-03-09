@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:14:07 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 18:53:13 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:10:11 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,46 +80,46 @@ static int	is_num(char *str)
 	return (1);
 }
 
-static int check_exit_args(char **array, int len)
+static	int	check_exit_args(char **array, int len)
 {
-    char *endptr;
-    long code;
+	char	*endptr;
+	long	code;
 
-    if (len == 1)
-        return (0);
-    if (!is_num(array[1]))
-    {
-        handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]);
-        return (2);
-    }
-    if (len > 2)
-    {
-        handle_exit_error(TOO_MANY_ARGUMENTS, "exit");
-        return (-1);
-    }
-    code = ft_strtol_base_10(array[1], &endptr);
-    if (*endptr != '\0')
-    {
-        handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]);
-        return (2);
-    }
-    return (code & 0xFF);
+	if (len == 1)
+		return (0);
+	if (!is_num(array[1]))
+	{
+		handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]);
+		return (2);
+	}
+	if (len > 2)
+	{
+		handle_exit_error(TOO_MANY_ARGUMENTS, "exit");
+		return (-1);
+	}
+	code = ft_strtol_base_10(array[1], &endptr);
+	if (*endptr != '\0')
+	{
+		handle_exit_error(NUMERIC_ARGUMENT_REQUIRED, array[1]);
+		return (2);
+	}
+	return (code & 0xFF);
 }
 
-int ft_exit(t_command *cmd, int fd_out)
+int	ft_exit(t_command *cmd, int fd_out)
 {
-    int len;
-    char **array;
-    int exit_code;
+	int		len;
+	char	**array;
+	int		exit_code;
 
-    if (!cmd || !cmd->args)
-        return (-1);
-    array = cmd->args;
-    len = nbr_of_args(array);
-    if (fd_out < 0)
-        fd_out = STDOUT_FILENO;
-    exit_code = check_exit_args(array, len);
-    if (exit_code >= 0)
-        ft_putendl_fd("exit", fd_out);
-    return (exit_code);
+	if (!cmd || !cmd->args)
+		return (-1);
+	array = cmd->args;
+	len = nbr_of_args(array);
+	if (fd_out < 0)
+		fd_out = STDOUT_FILENO;
+	exit_code = check_exit_args(array, len);
+	if (exit_code >= 0)
+		ft_putendl_fd("exit", fd_out);
+	return (exit_code);
 }

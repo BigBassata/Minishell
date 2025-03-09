@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 18:52:02 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/09 22:11:31 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int					handle_var_without_equal_sign(char *arg_1,
 int					handle_void_env_var_value(char **name, char **value);
 
 //Command execution
-int				execute_builtin(t_command *cmd,
+int					execute_builtin(t_command *cmd,
 						t_environment_var **env);
 enum e_state		check_command_type(const char *cmd);
 char				*find_command_path(const char *command,
@@ -129,6 +129,7 @@ int					cd_to_oldpwd(t_environment_var *env);
 int					cd_with_tild(char **args, t_environment_var *env);
 int					create_env_var_in_cd(t_environment_var **environment,
 						const char *name, const char *value);
+int					fork_process(pid_t *pid, int next_pipe[2]);
 
 //other utils
 int					nbr_of_args(char **array);
