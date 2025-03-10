@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/10 15:06:39 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:49:01 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static	int	prepare_command_execution(t_command *cmd, t_environment_var *env, t_p
 	cmd_path = find_command_path(cmd->args[0], env);
 	if (!cmd->args[0] || !cmd->args || !*cmd->args[0])
 	{
+		print_error_exec_message(COMMAND_NOT_FOUND, cmd->args[0]);
+		free(cmd_path);
 		free(info->process_ids);
 		cleanup_all(env, cmd, 0);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environnement_utils2.c                             :+:      :+:    :+:   */
+/*   environnement2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:37:12 by licohen           #+#    #+#             */
-/*   Updated: 2025/02/18 15:33:14 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:43:39 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ char	**convert_env_to_array(t_environment_var *environment)
 		temp = ft_strjoin(current->key, "=");
 		if (!temp)
 			return (free_array(env_array), NULL);
-		env_array[i] = ft_strjoin(temp, current->value);
+		if (current->value)
+			env_array[i] = ft_strjoin(temp, current->value);
+		else 
+			env_array[i] = ft_strdup(temp);
 		free(temp);
 		if (!env_array[i])
 			return (free_array(env_array), NULL);
