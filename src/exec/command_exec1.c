@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/10 16:10:13 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:44:11 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ static	int	prepare_command_execution(t_command *cmd, t_environment_var *env,
 	char	*cmd_path;
 	char	**env_array;
 
-	cmd_path = find_command_path(cmd->args[0], env);
+	cmd_path = NULL;
 	if (!cmd->args[0] || !cmd->args || !*cmd->args[0])
 	{
-		free(cmd_path);
+		if (!cmd->input_path && !cmd->output_path && !cmd->heredoc_delim)
+			print_error_exec_message(COMMAND_NOT_FOUND, "");
 		free(info->process_ids);
 		cleanup_all(env, cmd, 0);
 	}
+	cmd_path = find_command_path(cmd->args[0], env);
 	if (!cmd_path)
 	{
 		print_error_exec_message(COMMAND_NOT_FOUND, cmd->args[0]);
@@ -70,10 +72,7 @@ static	int	prepare_command_execution(t_command *cmd, t_environment_var *env,
 	}
 	env_array = convert_env_to_array(env);
 	if (!env_array)
-	{
-		free(cmd_path);
-		exit(ERROR);
-	}
+		exit_and_free(cmd_path);
 	execute_command(cmd_path, cmd->args, env_array, info);
 	return (TRUE);
 }

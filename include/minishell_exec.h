@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/10 16:11:12 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:42:01 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,6 @@ int					fork_process(pid_t *pid, int next_pipe[2]);
 int					nbr_of_args(char **array);
 void				init_next_pipe(int *next_pipe);
 int					is_running_programm(char *cmd, char *prog_name);
+void				exit_and_free(char *cmd_path);
 
 #endif
