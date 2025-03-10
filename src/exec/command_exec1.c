@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 22:11:20 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:06:39 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,34 @@ static int	setup_child_process(t_command *cmd, t_pipeline_info *info,
 	return (setup_redirections(cmd));
 }
 
-static	int	handle_builtin_commands(t_command *cmd, t_environment_var *env)
-{
-	if (!cmd->args || !cmd->args[0] || !*cmd->args[0])
-		exit(0);
-	if (is_builtin(cmd->args[0]))
-	{
-		execute_builtin(cmd, &env);
-		exit(cmd->exit_code);
-	}
-	return (0);
-}
+// static	int	handle_builtin_commands(t_command *cmd, t_environment_var *env)
+// {
+// 	if (!cmd->args || !cmd->args[0] || !*cmd->args[0])
+// 		exit(0);
+// 	if (is_builtin(cmd->args[0]))
+// 	{
+// 		execute_builtin(cmd, &env);
+// 		exit(cmd->exit_code);
+// 	}
+// 	return (0);
+// }
 
-static	int	execute_external_command(t_command *cmd, t_environment_var *env)
+static	int	prepare_command_execution(t_command *cmd, t_environment_var *env, t_pipeline_info *info)
 {
 	char	*cmd_path;
 	char	**env_array;
 
 	cmd_path = find_command_path(cmd->args[0], env);
+	if (!cmd->args[0] || !cmd->args || !*cmd->args[0])
+	{
+		free(info->process_ids);
+		cleanup_all(env, cmd, 0);
+	}
 	if (!cmd_path)
 	{
 		print_error_exec_message(COMMAND_NOT_FOUND, cmd->args[0]);
-		exit(127);
+		free(info->process_ids);
+		cleanup_all(env, cmd, 127);
 	}
 	env_array = convert_env_to_array(env);
 	if (!env_array)
@@ -82,7 +88,10 @@ static	int	execute_external_command(t_command *cmd, t_environment_var *env)
 	perror("execve");
 	free(cmd_path);
 	free_array(env_array);
-	exit(ERROR);
+	free(info->process_ids);
+	del_environment(env);
+	cleanup_command(cmd);
+	exit(126);
 }
 
 int	execute_piped_command(t_command *cmd, t_environment_var *env,
@@ -109,8 +118,14 @@ int	execute_piped_command(t_command *cmd, t_environment_var *env,
 	if (pid == 0)
 	{
 		if (setup_child_process(cmd, info, next_pipe) == ERROR)
-			exit(ERROR);
-		prepare_command_execution(cmd, env);
+		{
+			free(info->process_ids);
+			del_environment(env);
+			cleanup_command(cmd);
+			exit(1);
+			//cleanup_all(env, cmd, ERROR);
+		}
+		prepare_command_execution(cmd, env, info);
 	}
 	return (handle_pipeline_parent(info, pid, next_pipe));
 }
