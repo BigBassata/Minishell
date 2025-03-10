@@ -6,11 +6,16 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 13:45:20 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 22:10:00 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:51:37 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
+
+int	is_readonly_var(const char *name)
+{
+	return (ft_strcmp(name, "_?") == 0);
+}
 
 void	cleanup_fds(int prev_in_fd, int prev_out_fd)
 {

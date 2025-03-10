@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:48:52 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 18:50:18 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:11:34 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,15 @@ int	execute_builtin_parent(t_command *cmd, t_environment_var *env)
 		&& restore_fds2(stdin_backup, stdout_backup) == ERROR)
 		exit_code = ERROR;
 	return (exit_code);
+}
+
+void	execute_command(char *cmd_path, char **args,
+	char **env_array, t_pipeline_info *info)
+{
+	execve(cmd_path, args, env_array);
+	perror("execve");
+	free(cmd_path);
+	free_array(env_array);
+	free(info->process_ids);
+	exit(126);
 }

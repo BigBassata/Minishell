@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:32:04 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/09 22:11:31 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:11:12 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ char				*find_command_path(const char *command,
 int					wait_for_child(pid_t pid);
 int					handle_external_parent(pid_t pid,
 						t_environment_var *environment);
+void				execute_command(char *cmd_path, char **args,
+						char **env_array, t_pipeline_info *info);
 
 //env management
 t_environment_var	*initialize_shell(char **envp);

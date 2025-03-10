@@ -6,7 +6,7 @@
 /*   By: licohen <licohen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:40:26 by licohen           #+#    #+#             */
-/*   Updated: 2025/03/10 15:49:01 by licohen          ###   ########.fr       */
+/*   Updated: 2025/03/10 16:10:13 by licohen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,8 @@ static int	setup_child_process(t_command *cmd, t_pipeline_info *info,
 	return (setup_redirections(cmd));
 }
 
-// static	int	handle_builtin_commands(t_command *cmd, t_environment_var *env)
-// {
-// 	if (!cmd->args || !cmd->args[0] || !*cmd->args[0])
-// 		exit(0);
-// 	if (is_builtin(cmd->args[0]))
-// 	{
-// 		execute_builtin(cmd, &env);
-// 		exit(cmd->exit_code);
-// 	}
-// 	return (0);
-// }
-
-static	int	prepare_command_execution(t_command *cmd, t_environment_var *env, t_pipeline_info *info)
+static	int	prepare_command_execution(t_command *cmd, t_environment_var *env,
+									t_pipeline_info *info)
 {
 	char	*cmd_path;
 	char	**env_array;
@@ -69,7 +58,6 @@ static	int	prepare_command_execution(t_command *cmd, t_environment_var *env, t_p
 	cmd_path = find_command_path(cmd->args[0], env);
 	if (!cmd->args[0] || !cmd->args || !*cmd->args[0])
 	{
-		print_error_exec_message(COMMAND_NOT_FOUND, cmd->args[0]);
 		free(cmd_path);
 		free(info->process_ids);
 		cleanup_all(env, cmd, 0);
@@ -86,18 +74,26 @@ static	int	prepare_command_execution(t_command *cmd, t_environment_var *env, t_p
 		free(cmd_path);
 		exit(ERROR);
 	}
-	execve(cmd_path, cmd->args, env_array);
-	perror("execve");
-	free(cmd_path);
-	free_array(env_array);
-	free(info->process_ids);
-	del_environment(env);
-	cleanup_command(cmd);
-	exit(126);
+	execute_command(cmd_path, cmd->args, env_array, info);
+	return (TRUE);
+}
+
+static	int	setup_and_execute_child(t_command *cmd, t_environment_var *env,
+									t_pipeline_info *info, int next_pipe[2])
+{
+	if (setup_child_process(cmd, info, next_pipe) == ERROR)
+	{
+		free(info->process_ids);
+		del_environment(env);
+		cleanup_command(cmd);
+		exit(1);
+	}
+	prepare_command_execution(cmd, env, info);
+	return (TRUE);
 }
 
 int	execute_piped_command(t_command *cmd, t_environment_var *env,
-	t_pipeline_info *info)
+						t_pipeline_info *info)
 {
 	pid_t	pid;
 	int		next_pipe[2];
@@ -118,16 +114,6 @@ int	execute_piped_command(t_command *cmd, t_environment_var *env,
 	if (fork_process(&pid, next_pipe) == ERROR)
 		return (ERROR);
 	if (pid == 0)
-	{
-		if (setup_child_process(cmd, info, next_pipe) == ERROR)
-		{
-			free(info->process_ids);
-			del_environment(env);
-			cleanup_command(cmd);
-			exit(1);
-			//cleanup_all(env, cmd, ERROR);
-		}
-		prepare_command_execution(cmd, env, info);
-	}
+		setup_and_execute_child(cmd, env, info, next_pipe);
 	return (handle_pipeline_parent(info, pid, next_pipe));
 }
