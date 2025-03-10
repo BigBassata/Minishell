@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: liamcohen <liamcohen@student.42.fr>        +#+  +:+       +#+         #
+#    By: licohen <licohen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 17:31:35 by licohen           #+#    #+#              #
-#    Updated: 2025/03/05 07:10:12 by liamcohen        ###   ########.fr        #
+#    Updated: 2025/03/10 16:55:45 by licohen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ ERROR_SRCS = error_message.c error_message_2.c
 
 EXEC_SRCS = command_exec1.c command_exec2.c command_path.c environnement2.c \
             environnement1.c pipeline1.c pipeline2.c redirection1.c redirections2.c \
-			 redirections3.c utils.c memory_management1.c memory_management2.c
+			 redirections3.c utils.c utils2.c memory_management1.c memory_management2.c
             
 BUILTINS_SRCS = builtins_utils.c builtins.c ft_cd.c ft_cd_2.c \
                 ft_echo.c ft_env.c ft_exit.c ft_export.c ft_export_2.c \
